@@ -1,0 +1,21 @@
+// Sample Solution for Q01 (Largest Element in an Array)
+// Result: FAILS TEST CASE T2 (Bug: initializes max to 0 instead of a[0])
+// When the array is all negative (e.g. -4, -2, -9), it outputs 0 instead of -2.
+#include <stdio.h>
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    
+    // LOGICAL ERROR: Initializing max to 0 fails if all numbers are negative
+    int max_val = 0; 
+    for (int i = 0; i < n; i++) {
+        int val;
+        scanf("%d", &val);
+        if (val > max_val) {
+            max_val = val;
+        }
+    }
+    printf("%d\n", max_val);
+    return 0;
+}
