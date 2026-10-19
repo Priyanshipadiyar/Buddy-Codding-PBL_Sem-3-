@@ -1,0 +1,109 @@
+{
+  "id": "Q02",
+  "title": "Remove Duplicates from Sorted Array",
+  "topic": "Arrays",
+  "conceptId": "remove_duplicates",
+  "difficulty": 1,
+  "statement": "Given a sorted array, remove the duplicates in-place such that each element appears only once and returns the new length.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "3\n1 1 2\n",
+      "expected": "2\n1 2\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "1\n5\n",
+      "expected": "1\n5\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "missing_logic",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Try to do something like shifting elements when a unique one is found.",
+      "hint2": "Consider using two pointers: one to scan, one to place the unique element.",
+      "hint3": "Think about how you would overwrite the duplicate elements instead of creating a new array.",
+      "hint4": "Keep a `write_index` that only moves forward when you see a number different from the previous one.",
+      "wrongExample": "test_cases/Q02/missing_logic.cpp"
+    },
+    {
+      "category": "wrong_counter",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "count++"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Make sure you only increase your counter when you find a unique element.",
+      "hint2": "Are you incrementing the write pointer on duplicates? That defeats the purpose.",
+      "hint3": "Trace your code with [1, 1, 2]. Does your counter become 3?",
+      "hint4": "Only do `array[write_index++] = array[i]` if `array[i] != array[i-1]`.",
+      "wrongExample": "test_cases/Q02/wrong_counter.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check your loop's ending condition.",
+      "hint2": "Is your pointer correctly incrementing to reach the end of the array?",
+      "hint3": "Make sure you aren't accidentally decrementing your loop counter inside the loop.",
+      "hint4": "Ensure your `for` or `while` loop strictly advances `i < n` every iteration.",
+      "wrongExample": "test_cases/Q02/infinite_loop.cpp"
+    },
+    {
+      "category": "edge_case_single_element",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "How does your code behave if the array only has 1 element?",
+      "hint2": "If the array has size 0 or 1, there are no duplicates to remove.",
+      "hint3": "Check if your loop safely skips execution when `n <= 1`.",
+      "hint4": "Add a quick `if (n <= 1) return n;` at the start of your function.",
+      "wrongExample": "test_cases/Q02/edge_case.cpp"
+    },
+    {
+      "category": "wrong_condition",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "=="
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Review the operator you are using to check if two adjacent elements are the same or different.",
+      "hint2": "Are you writing elements when they MATCH instead of when they DIFFER?",
+      "hint3": "If you check `arr[i] == arr[i-1]`, you are storing the duplicates.",
+      "hint4": "Change your condition to `arr[i] != arr[i-1]`.",
+      "wrongExample": "test_cases/Q02/wrong_condition.cpp"
+    }
+  ]
+}
