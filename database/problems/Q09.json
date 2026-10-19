@@ -1,0 +1,143 @@
+{
+  "id": "Q09",
+  "title": "Reverse Linked List",
+  "topic": "Linked Lists",
+  "conceptId": "reverse_list",
+  "difficulty": 1,
+  "statement": "Given the head of a singly linked list, reverse the list, and return the reversed list.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "1 2 3 4 5",
+      "expected": "5 4 3 2 1"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "empty",
+      "expected": "empty"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "losing_list",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Are you losing the rest of the list when you change a pointer?",
+      "hint2": "When you do `curr->next = prev`, you detach `curr` from the remaining nodes.",
+      "hint3": "You need to store the next node before you overwrite `curr->next`.",
+      "hint4": "Use a temporary pointer: `ListNode* nextTemp = curr->next;` before reversing.",
+      "wrongExample": "test_cases/Q09/losing_list.cpp"
+    },
+    {
+      "category": "incorrect_initializer",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "What did you initialize your `prev` pointer to?",
+      "hint2": "If you initialized it to a new node or `head`, it will create a cycle or extra node.",
+      "hint3": "The new tail of the reversed list needs to point to NULL.",
+      "hint4": "Initialize `ListNode* prev = NULL;`.",
+      "wrongExample": "test_cases/Q09/incorrect_init.cpp"
+    },
+    {
+      "category": "wrong_return",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "return head"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Which pointer are you returning at the end of the function?",
+      "hint2": "If you return `head` or `curr`, they might be pointing to NULL or the old start.",
+      "hint3": "You want to return the new head of the reversed list.",
+      "hint4": "Return the `prev` pointer, as it holds the last processed node.",
+      "wrongExample": "test_cases/Q09/wrong_return.cpp"
+    },
+    {
+      "category": "incorrect_link_reversal",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check the direction you are pointing the arrows.",
+      "hint2": "You want `curr->next` to point backwards to `prev`.",
+      "hint3": "Are you accidentally doing `prev->next = curr`?",
+      "hint4": "The correct assignment is `curr->next = prev;`.",
+      "wrongExample": "test_cases/Q09/incorrect_link.cpp"
+    },
+    {
+      "category": "edge_case",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What happens if the list is completely empty (head is NULL)?",
+      "hint2": "What if there is only 1 node in the list?",
+      "hint3": "Does your code throw a Segmentation Fault?",
+      "hint4": "Add `if (!head || !head->next) return head;` at the very beginning.",
+      "wrongExample": "test_cases/Q09/edge_case.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Your loop is running infinitely.",
+      "hint2": "Are you advancing the `curr` pointer?",
+      "hint3": "If you didn't save the next node, you might be looping back on yourself.",
+      "hint4": "Ensure you do `curr = nextTemp;` at the end of every iteration.",
+      "wrongExample": "test_cases/Q09/infinite_loop.cpp"
+    },
+    {
+      "category": "incorrect_pointer_movement",
+      "priority": 7,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Are you moving your pointers in the right order?",
+      "hint2": "If you move `curr` before reversing the link, you break the chain.",
+      "hint3": "The order of operations is crucial here.",
+      "hint4": "Order: 1. save next, 2. reverse link, 3. update prev, 4. advance curr.",
+      "wrongExample": "test_cases/Q09/incorrect_movement.cpp"
+    }
+  ]
+}

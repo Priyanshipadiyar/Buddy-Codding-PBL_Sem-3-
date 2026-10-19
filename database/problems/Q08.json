@@ -1,0 +1,143 @@
+{
+  "id": "Q08",
+  "title": "Merge Two Sorted Lists",
+  "topic": "Linked Lists",
+  "conceptId": "merge_lists",
+  "difficulty": 2,
+  "statement": "Merge two sorted linked lists and return it as a sorted list.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "list1, list2",
+      "expected": "merged"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "empty, empty",
+      "expected": "empty"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "not_sorted",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "<"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check the comparison between the nodes of the two lists.",
+      "hint2": "Are you picking the smaller value first?",
+      "hint3": "Make sure your greater-than/less-than signs are correct.",
+      "hint4": "You should append `list1` if `list1->val <= list2->val`.",
+      "wrongExample": "test_cases/Q08/not_sorted.cpp"
+    },
+    {
+      "category": "skipping_node",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "->next->next"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Make sure you aren't accidentally moving your pointer forward twice.",
+      "hint2": "Are you forgetting to link a node before moving?",
+      "hint3": "Trace your pointers carefully on a piece of paper.",
+      "hint4": "Only advance the pointer of the list you just pulled a node from.",
+      "wrongExample": "test_cases/Q08/skipping_node.cpp"
+    },
+    {
+      "category": "edge_case_empty",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What happens if one of the linked lists is completely empty from the start?",
+      "hint2": "If list A is empty, the merged list is just list B. Does your code handle this?",
+      "hint3": "Check for `if (list1 == NULL)` right at the beginning of your function.",
+      "hint4": "Your main loop condition should be `while (list1 != NULL && list2 != NULL)`.",
+      "wrongExample": "test_cases/Q08/edge_case_empty.cpp"
+    },
+    {
+      "category": "same_elements_skipped",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "If both lists have a node with the same value, what do you do?",
+      "hint2": "You need to include BOTH of them in the merged list. Don't skip one.",
+      "hint3": "Are you advancing both pointers when values are equal?",
+      "hint4": "When `val1 == val2`, pick one, link it, and ONLY move that specific list's pointer.",
+      "wrongExample": "test_cases/Q08/same_elements.cpp"
+    },
+    {
+      "category": "different_lengths",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "One list might run out of nodes before the other.",
+      "hint2": "When the `while` loop ends, one of the lists might still have elements.",
+      "hint3": "Are you appending the rest of the longer list at the end of your merged list?",
+      "hint4": "After the loop, simply link the remaining list: `current->next = (list1 != NULL) ? list1 : list2;`.",
+      "wrongExample": "test_cases/Q08/diff_lengths.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "It looks like one of your pointers isn't moving forward inside the loop.",
+      "hint2": "This causes the loop to run forever.",
+      "hint3": "Did you forget `list1 = list1->next`?",
+      "hint4": "Ensure every branch of your if/else updates a pointer.",
+      "wrongExample": "test_cases/Q08/infinite_loop.cpp"
+    },
+    {
+      "category": "just_append",
+      "priority": 7,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "You can't just attach list B to the end of list A.",
+      "hint2": "You have to weave them together so the final list remains sorted.",
+      "hint3": "Compare values one by one.",
+      "hint4": "Create a dummy head node and iteratively attach the smallest node.",
+      "wrongExample": "test_cases/Q08/just_append.cpp"
+    }
+  ]
+}
