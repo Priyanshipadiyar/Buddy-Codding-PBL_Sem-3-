@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buddy Coding | History</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/history.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">&lt;/&gt;</span>
+        <span><strong>Buddy Coding</strong><small>AI Coding Buddy</small></span>
+      </a>
+
+      <label class="search-box">
+        <span>⌕</span>
+        <input id="historySearch" type="search" placeholder="Search history...">
+        <kbd>Ctrl + K</kbd>
+      </label>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-item" href="index.html">⌂ <span>Home</span></a>
+        <a class="nav-item" href="problems.html">▤ <span>Problems</span></a>
+        <a class="nav-item active" href="history.html" aria-current="page">◷ <span>History</span></a>
+      </nav>
+
+
+      <div class="sidebar-note">
+        <span>✦</span>
+        <div><strong>Small steps</strong><small>drive big progress</small></div>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Toggle navigation">☰</button>
+        <span class="topbar-label">YOUR PERSONAL CODING GUIDE</span>
+        <span class="profile-button">● &nbsp; Hello, <strong>Learner</strong></span>
+      </header>
+
+      <div class="page-content">
+        <section class="page-heading">
+          <p class="eyebrow">YOUR LEARNING JOURNEY</p>
+          <h1>Submission History</h1>
+          <p>Review your previous coding attempts, revisit feedback, and keep improving your logic.</p>
+        </section>
+
+        <section class="stats-grid" aria-label="Submission statistics">
+          <article class="stat-card">
+            <span class="stat-label">Total Submissions</span>
+            <strong id="totalCount">0</strong>
+            <span class="stat-note">Your coding attempts</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Reviewed</span>
+            <strong id="reviewedCount">0</strong>
+            <span class="stat-note">Attempts marked reviewed</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Needs Improvement</span>
+            <strong id="improveCount">0</strong>
+            <span class="stat-note">Keep practising</span>
+          </article>
+        </section>
+
+        <section class="history-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Previous Attempts</h2>
+              <p>Search and review your submitted code.</p>
+            </div>
+            <button type="button" id="clearHistory" class="clear-history-btn">Clear History</button>
+          </div>
+
+          <div class="filters">
+            <div>
+              <label for="searchInput">Search submissions</label>
+              <input type="search" id="searchInput" placeholder="Search by problem title...">
+            </div>
+            <div>
+              <label for="languageFilter">Language</label>
+              <select id="languageFilter">
+                <option value="all">C and C++</option>
+                <option value="C">C</option>
+                <option value="C++">C++</option>
+              </select>
+            </div>
+            <div>
+              <label for="statusFilter">Status</label>
+              <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="Submitted">Submitted</option>
+                <option value="Reviewed">Reviewed</option>
+                <option value="Needs Improvement">Needs Improvement</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Problem</th><th>Language</th><th>Date</th><th>Status</th><th>Action</th></tr>
+              </thead>
+              <tbody id="historyTable"></tbody>
+            </table>
+          </div>
+
+          <div id="emptyState" class="empty-state" hidden>
+            <div class="empty-icon">&lt;/&gt;</div>
+            <h3>No submissions found</h3>
+            <p>Try changing your search or submit your first coding attempt.</p>
+            <a href="submission.html" class="primary-btn">Submit Code</a>
+          </div>
+          <p class="table-footer" id="resultCount">Showing 0 submissions</p>
+        </section>
+
+        <section id="detailsPanel" class="details-panel" hidden>
+          <div class="details-heading">
+            <div>
+              <p class="eyebrow">SUBMISSION DETAILS</p>
+              <h2 id="detailTitle">Problem Title</h2>
+            </div>
+            <button type="button" id="closeDetails" class="close-btn">Close</button>
+          </div>
+          <p id="detailMeta" class="detail-meta"></p>
+          <h3>Problem Description</h3>
+          <p id="detailDescription"></p>
+          <h3>Submitted Code</h3>
+          <pre><code id="detailCode"></code></pre>
+          <h3>Feedback</h3>
+          <p id="detailFeedback"></p>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

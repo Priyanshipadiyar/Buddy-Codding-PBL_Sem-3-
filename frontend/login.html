@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login | Buddy Coding</title>
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js" defer></script>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <span class="brand-icon">&lt;/&gt;</span>
+            <span>
+                <strong>Buddy Coding</strong>
+                <small>AI Coding Buddy</small>
+            </span>
+        </a>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main class="login-layout">
+
+        <section class="welcome-panel">
+            <div class="illustration">&lt;/&gt;</div>
+            <p class="eyebrow">YOUR CODING JOURNEY STARTS HERE</p>
+            <h1>Learn smarter.<br><span>Code better.</span></h1>
+            <p class="description">
+                Welcome back to Buddy Coding! Understand your mistakes,
+                improve your logic and learn one step at a time.
+            </p>
+
+            <div class="feature">
+                <span>✓</span>
+                <div>
+                    <strong>Step-by-step guidance</strong>
+                    <small>Learn the logic behind every problem.</small>
+                </div>
+            </div>
+
+            <div class="feature">
+                <span>✓</span>
+                <div>
+                    <strong>Practice at your pace</strong>
+                    <small>Build confidence with every attempt.</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="login-card">
+            <div class="card-icon">♙</div>
+            <p class="card-label">STUDENT ACCOUNT</p>
+            <h2>Welcome back!</h2>
+            <p class="subtitle">Sign in to continue your learning journey.</p>
+
+            <form id="loginForm">
+                <label for="email">Email address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+                <label for="password">Password</label>
+                <div class="password-box">
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                        minlength="6"
+                    >
+                    <button type="button" id="togglePassword">
+                        Show
+                    </button>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox" id="remember">
+                        Remember me
+                    </label>
+                    <a href="#" id="forgotPassword">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Login to your account <span>→</span>
+                </button>
+
+                <p id="message" class="message" role="status"></p>
+            </form>
+
+            <div class="separator"><span>NEW TO BUDDY CODING?</span></div>
+
+            <a href="signup.html" class="signup-button">
+                Create student account
+            </a>
+
+            <p class="privacy-note">
+                Your learning journey starts with one small step.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 Buddy Coding · Learn the logic, not just the answer.
+    </footer>
+
+</div>
+
+</body>
+</html>

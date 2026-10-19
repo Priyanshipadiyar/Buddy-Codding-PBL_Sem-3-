@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddy Coding | Submit Code</title>
+    <link rel="stylesheet" href="css/submission.css">
+    <script src="js/submission.js" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-icon">&lt;/&gt;</span>
+            <span>Buddy Coding</span>
+        </a>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main class="container">
+        <section class="page-heading">
+            <p class="eyebrow">PRACTICE • LEARN • IMPROVE</p>
+            <h1>Submit Your Code</h1>
+            <p>Choose a question, then write or paste your attempt in the code editor.</p>
+        </section>
+
+        <form id="submissionForm">
+            <section class="panel questions-panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>01. Choose a Question</h2>
+                        <p>Select one question to load its details. You can switch questions at any time.</p>
+                    </div>
+                    <span class="question-count" id="questionCount">0 of 15 selected</span>
+                </div>
+                <div class="question-list" id="questionList" aria-label="Practice questions"></div>
+                <div class="selected-question" id="selectedQuestion" aria-live="polite">
+                    <strong id="selectedTitle">Choose a question above</strong>
+                    <p id="selectedDescription">The question description will appear here.</p>
+                </div>
+            </section>
+
+            <section class="panel editor-panel">
+                <div class="editor-heading">
+                    <div>
+                        <h2>02. Your Code</h2>
+                        <p>Write or paste your attempted solution below.</p>
+                    </div>
+                    <div class="language-select">
+                        <label for="language">Language</label>
+                        <select id="language">
+                            <option value="c">C</option>
+                            <option value="cpp">C++</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="editor-toolbar">
+                    <span class="file-name">● &nbsp; main.<span id="fileExtension">c</span></span>
+                    <span id="lineCount">1 line</span>
+                </div>
+                <div class="code-editor">
+                    <div class="line-numbers" id="lineNumbers">1</div>
+                    <textarea id="codeInput" placeholder="// Write your C or C++ code here..." spellcheck="false" autocapitalize="off" autocomplete="off" required></textarea>
+                </div>
+                <div class="editor-footer">
+                    <span>Tip: Try to solve the selected problem independently.</span>
+                    <button type="button" id="clearButton" class="clear-btn">Clear Code</button>
+                </div>
+            </section>
+
+            <div class="submit-area">
+                <p>Your code will be saved for review. This demo does not compile or evaluate code yet.</p>
+                <button type="submit" class="submit-btn">Submit for Review →</button>
+            </div>
+
+            <div id="message" class="message" role="status" aria-live="polite"></div>
+
+            <section id="previewPanel" class="panel preview-panel" hidden>
+                <h2>Submission Preview</h2>
+                <p id="previewDetails"></p>
+                <pre id="previewCode"></pre>
+                <p class="notice">This is a frontend demonstration. Connect a backend evaluation engine to analyze the code and generate hints.</p>
+            </section>
+        </form>
+    </main>
+
+    <footer>Buddy Coding — Learn to solve, not just to copy.</footer>
+</body>
+</html>
