@@ -1,0 +1,9 @@
+{
+  "problemId": "Q01",
+  "correct": ["correct.cpp"],
+  "wrong": [
+    { "file": "wrong_init_zero.cpp",      "expectedCategory": "incorrect_initialization" },
+    { "file": "wrong_loop_boundary.cpp",  "expectedCategory": "loop_boundary_error" },
+    { "file": "wrong_condition.cpp",      "expectedCategory": "wrong_condition" }
+  ]
+}
