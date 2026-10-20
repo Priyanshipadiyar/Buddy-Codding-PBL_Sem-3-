@@ -1,0 +1,107 @@
+{
+  "id": "Q01",
+  "title": "Largest Element in an Array",
+  "topic": "Arrays",
+  "conceptId": "array_max",
+  "difficulty": 1,
+  "statement": "You are given n integers. Print the largest of them.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5\n3 1 4 1 5\n",
+      "expected": "5\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "3\n-4 -2 -9\n",
+      "expected": "-2\n"
+    },
+    {
+      "id": "T3",
+      "visible": true,
+      "input": "4\n1 2 3 9\n",
+      "expected": "9\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "incorrect_initialization",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "= 0;"
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What would your answer be if every number in the array were negative?",
+      "hint2": "Starting the maximum at 0 only works when some element is at least 0.",
+      "hint3": "What could you start it with so it works for any array? Think about the very first element.",
+      "hint4": "Try initializing your maximum variable with array[0] or INT_MIN.",
+      "wrongExample": "test_cases/Q01/wrong_init.cpp"
+    },
+    {
+      "category": "loop_boundary_error",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "< n - 1",
+          "< n-1"
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "hint1": "The largest number is at the last position in T3. Does your loop examine that position?",
+      "hint2": "For n numbers, valid indexes range from 0 to n-1. Check where your loop stops.",
+      "hint3": "Trace your loop with n = 4. If it stops at index 2, it misses the value 9 at index 3.",
+      "hint4": "Make sure your loop visits the last valid index. For a zero-based array, a common condition is i < n.",
+      "wrongExample": "test_cases/Q01/wrong_loop.cpp"
+    },
+    {
+      "category": "wrong_condition",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "if (arr[i] < max_val)",
+          "if (array[i] < max_val)",
+          "if (current_element < current_max)"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "hint1": "Re-read the condition that decides when your stored maximum is replaced.",
+      "hint2": "Run your code by hand on 3, 1, 4. Is it storing the biggest value seen so far?",
+      "hint3": "Check whether you accidentally wrote logic to find the minimum instead of the maximum.",
+      "hint4": "Update the maximum only when the current element is greater than the current maximum.",
+      "wrongExample": "test_cases/Q01/wrong_condition.cpp"
+    },
+    {
+      "category": "wrong_return_value",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "return i;",
+          "cout << i;",
+          "printf(\"%d\", i);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "hint1": "Are you printing the largest number, or its position?",
+      "hint2": "The problem asks for the value itself, not the index where it was found.",
+      "hint3": "For the array 9, 2, 3, check whether your output is 9 or 0.",
+      "hint4": "Print the actual maximum value, such as max_val, rather than the index.",
+      "wrongExample": "test_cases/Q01/wrong_return.cpp"
+    }
+  ]
+}

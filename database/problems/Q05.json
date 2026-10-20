@@ -1,0 +1,160 @@
+{
+  "id": "Q05",
+  "title": "Best Time to Buy and Sell Stock",
+  "topic": "Arrays",
+  "conceptId": "buy_sell_stock",
+  "difficulty": 2,
+  "statement": "Find the maximum profit you can achieve by buying on one day and selling on a different day.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "6\n7 1 5 3 6 4\n",
+      "expected": "5\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "5\n7 6 4 3 1\n",
+      "expected": "0\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "missing_logic",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Think about evaluating two elements: the lowest price seen so far and the current price.",
+      "hint2": "Use two variables to keep track: one for the minimum price and one for the maximum profit.",
+      "hint3": "If you simply update the minimum price when you see a lower one, and calculate profit for the rest, you'll arrive at the solution.",
+      "hint4": "Avoid nested loops (O(n^2)), just do a single pass tracking `min_price`.",
+      "wrongExample": "test_cases/Q05/missing_logic.cpp"
+    },
+    {
+      "category": "wrong_minimum_price",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "= 0"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "What value did you initialize your minimum price to?",
+      "hint2": "It needs to start very high so any actual price in the array will be lower.",
+      "hint3": "If you start `min_price` at 0, it will never update because real prices are > 0.",
+      "hint4": "Set `min_price` to `INT_MAX` or the very first element of the array.",
+      "wrongExample": "test_cases/Q05/wrong_min.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check the bounds of your loop.",
+      "hint2": "Make sure it doesn't run past the end of the prices array.",
+      "hint3": "Are you incrementing `i`?",
+      "hint4": "Ensure your `for` loop advances properly.",
+      "wrongExample": "test_cases/Q05/infinite_loop.cpp"
+    },
+    {
+      "category": "edge_case_single",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "If there is only 1 day of prices, you can't buy and sell.",
+      "hint2": "Does your code handle arrays of size 0 or 1 safely?",
+      "hint3": "Check if your logic crashes when trying to access `prices[1]`.",
+      "hint4": "Add `if(prices.size() <= 1) return 0;`.",
+      "wrongExample": "test_cases/Q05/edge_case.cpp"
+    },
+    {
+      "category": "wrong_profit_calc",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "+"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "How are you calculating profit?",
+      "hint2": "Profit should be (current price) - (minimum price seen so far).",
+      "hint3": "Check your math operators.",
+      "hint4": "Update max profit with `max(max_profit, current_price - min_price)`.",
+      "wrongExample": "test_cases/Q05/wrong_calc.cpp"
+    },
+    {
+      "category": "buy_sell_order",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "You have to buy BEFORE you can sell.",
+      "hint2": "Are you calculating profit using a maximum price that occurred *before* the minimum price?",
+      "hint3": "Finding the global max and global min independently doesn't work if the max comes first.",
+      "hint4": "Update the `min_price` as you iterate, and calculate profit strictly based on history.",
+      "wrongExample": "test_cases/Q05/buy_sell_order.cpp"
+    },
+    {
+      "category": "max_profit_overwrite",
+      "priority": 7,
+      "detect": {
+        "anyPattern": [
+          "int max_profit = 0;"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Is your max profit resetting unexpectedly?",
+      "hint2": "Check if you declared your `max_profit` variable INSIDE the loop.",
+      "hint3": "Variables declared inside a loop are destroyed and recreated on every iteration.",
+      "hint4": "Move `int max_profit = 0;` to the top of your function, outside the `for` loop.",
+      "wrongExample": "test_cases/Q05/overwrite.cpp"
+    },
+    {
+      "category": "unhandled_negative",
+      "priority": 8,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What if the stock market crashes and prices only go down?",
+      "hint2": "If prices are [5, 4, 3, 2, 1], your maximum profit should be 0.",
+      "hint3": "Does your code output a negative profit? You should choose not to buy at all.",
+      "hint4": "Initialize max profit to 0, not a negative number or INT_MIN.",
+      "wrongExample": "test_cases/Q05/negative.cpp"
+    }
+  ]
+}

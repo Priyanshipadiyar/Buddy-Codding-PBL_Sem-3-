@@ -1,0 +1,127 @@
+{
+  "id": "Q06",
+  "title": "Maximum Product of Three Numbers",
+  "topic": "Arrays",
+  "conceptId": "max_product_three",
+  "difficulty": 2,
+  "statement": "Find three numbers in the array whose product is maximum and return the product.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "4\n1 2 3 4\n",
+      "expected": "24\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "4\n-10 -10 1 2\n",
+      "expected": "200\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "missing_logic",
+      "priority": 0,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "How do you find the biggest numbers to multiply?",
+      "hint2": "Try using sorting first to see which elements give the biggest product.",
+      "hint3": "Remember that two large negative numbers multiplied together yield a positive number.",
+      "hint4": "The max product is either the 3 largest numbers OR the 2 smallest (most negative) numbers times the largest number.",
+      "wrongExample": "test_cases/Q06/missing_logic.cpp"
+    },
+    {
+      "category": "negative_not_considered",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "Are you only multiplying the three largest positive numbers?",
+      "hint2": "What happens if the array has two very large negative numbers?",
+      "hint3": "Negative times negative is positive.",
+      "hint4": "Check if `nums[0] * nums[1] * nums[n-1]` yields a bigger result.",
+      "wrongExample": "test_cases/Q06/neg_not_considered.cpp"
+    },
+    {
+      "category": "negative_not_used",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "You seem to be handling negatives, but the product isn't correct.",
+      "hint2": "Are you comparing the correct combinations?",
+      "hint3": "You must compare the product of the 3 largest vs 2 smallest and 1 largest.",
+      "hint4": "Return `max(nums[n-1]*nums[n-2]*nums[n-3], nums[0]*nums[1]*nums[n-1])`.",
+      "wrongExample": "test_cases/Q06/neg_not_used.cpp"
+    },
+    {
+      "category": "wrong_initialization",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "= 0"
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What value did you initialize your maximum product to?",
+      "hint2": "If you initialized `max_product = 0`, it will fail if all numbers are negative.",
+      "hint3": "The maximum product of three negative numbers is negative.",
+      "hint4": "Initialize your max variable with a very small number like `INT_MIN`, or just calculate it directly if using sorting.",
+      "wrongExample": "test_cases/Q06/wrong_init.cpp"
+    },
+    {
+      "category": "zero_handling",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2"
+        ]
+      },
+      "hint1": "Does your code handle arrays that contain 0?",
+      "hint2": "If the array has negatives and a zero, the max product might just be 0.",
+      "hint3": "Sorting safely handles 0 natively without extra if-statements.",
+      "hint4": "Review how your algorithm treats a multiplication by zero.",
+      "wrongExample": "test_cases/Q06/zero_handling.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check your loop ending condition.",
+      "hint2": "Are your iterators advancing correctly if you manually search for min/max?",
+      "hint3": "Ensure your loop strictly advances `i < n` every iteration.",
+      "hint4": "Check for missing `i++`.",
+      "wrongExample": "test_cases/Q06/infinite_loop.cpp"
+    }
+  ]
+}
