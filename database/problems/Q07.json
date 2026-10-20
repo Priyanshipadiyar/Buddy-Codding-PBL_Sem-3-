@@ -1,0 +1,130 @@
+{
+  "id": "Q07",
+  "title": "Intersection of Two Linked Lists",
+  "topic": "Linked Lists",
+  "conceptId": "intersection_lists",
+  "difficulty": 2,
+  "statement": "Given the heads of two singly linked-lists, return the node at which the two lists intersect.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "list1, list2",
+      "expected": "intersect_node"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "no_intersection",
+      "expected": "null"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "comparing_value",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+  "->val\\s*==",
+  "==\\s*\\w+->val",
+  "->val\\s*!=",
+  "!=\\s*\\w+->val"
+],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Are you comparing the values inside the nodes instead of the nodes themselves?",
+      "hint2": "Two different nodes can hold the exact same value. That doesn't mean they intersect.",
+      "hint3": "Intersection means they share the same physical memory space.",
+      "hint4": "Compare the pointers themselves: `if (ptrA == ptrB)`, not `ptrA->val == ptrB->val`.",
+      "wrongExample": "test_cases/Q07/comparing_val.cpp"
+    },
+    {
+      "category": "missing_null_handling",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "What happens if one or both linked lists are empty?",
+      "hint2": "Does your code try to access `headA->next` when `headA` is NULL?",
+      "hint3": "That causes a Segmentation Fault.",
+      "hint4": "Add a check at the top: `if (!headA || !headB) return NULL;`.",
+      "wrongExample": "test_cases/Q07/missing_null.cpp"
+    },
+    {
+      "category": "wrong_loop_condition",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+  "while\\s*\\([^)]*&&",
+  "while\\s*\\([^)]*\\|\\|"
+],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "When should your traversal loop stop?",
+      "hint2": "It should run as long as the two pointers haven't met.",
+      "hint3": "If you stop when they hit NULL, you might miss the intersection.",
+      "hint4": "Use `while (ptrA != ptrB)` as your loop condition.",
+      "wrongExample": "test_cases/Q07/wrong_loop.cpp"
+    },
+    {
+      "category": "no_intersection_edge_case",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What happens if the two linked lists never intersect?",
+      "hint2": "Your code should return NULL if they don't share a node.",
+      "hint3": "If both pointers reach the end (NULL) at the same time, they match at NULL.",
+      "hint4": "Make sure your loop terminates correctly when `ptrA == ptrB == NULL` and returns NULL.",
+      "wrongExample": "test_cases/Q07/no_intersection.cpp"
+    },
+    {
+      "category": "no_switch",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Are you only traversing to the end of list A and stopping?",
+      "hint2": "If the lists are different lengths, they won't meet at the same time.",
+      "hint3": "You need to switch tracks to align them.",
+      "hint4": "When pointer A reaches NULL, switch it to the head of list B. Do the same for B.",
+      "wrongExample": "test_cases/Q07/no_switch.cpp"
+    },
+    {
+      "category": "incorrect_switch",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "How are you handling the pointer switch?",
+      "hint2": "Are you switching A to the head of A instead of B?",
+      "hint3": "Or are you switching before actually hitting NULL?",
+      "hint4": "Use exactly: `ptrA = ptrA ? ptrA->next : headB;`.",
+      "wrongExample": "test_cases/Q07/incorrect_switch.cpp"
+    }
+  ]
+}

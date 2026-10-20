@@ -1,0 +1,143 @@
+{
+  "id": "Q04",
+  "title": "Merge Sorted Array",
+  "topic": "Arrays",
+  "conceptId": "merge_sorted",
+  "difficulty": 2,
+  "statement": "Merge two sorted arrays into one sorted array in-place.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "3 3\n1 2 3\n2 5 6\n",
+      "expected": "1 2 2 3 5 6\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "0 1\n\n1\n",
+      "expected": "1\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "missing_logic",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Think about comparing two elements at a time rather than dealing with whole arrays.",
+      "hint2": "Use double pointers to keep track of your current position in both arrays.",
+      "hint3": "If you simply consider one element each at a time from the two arrays, make a decision, and proceed, you will arrive at the optimal solution.",
+      "hint4": "Since the first array has extra space at the end, try starting your pointers from the *back*!",
+      "wrongExample": "test_cases/Q04/missing_logic.cpp"
+    },
+    {
+      "category": "wrong_counter",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Make sure you only decrease the pointer for the array from which you just took an element.",
+      "hint2": "Are you accidentally shifting both pointers when you only placed one element?",
+      "hint3": "Trace what happens if array1 has [2] and array2 has [1]. Which pointer moves?",
+      "hint4": "Only modify pointer `i` if you pick from array1, and `j` if you pick from array2.",
+      "wrongExample": "test_cases/Q04/wrong_counter.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "When should your loop stop? Make sure both pointers stay within their array bounds.",
+      "hint2": "If pointer `i` reaches 0 but pointer `j` still has elements, you need to keep going.",
+      "hint3": "If pointer `j` reaches 0, you can actually stop, because array1 is already sorted in place.",
+      "hint4": "Use `while (i >= 0 && j >= 0)` for the main loop, then add a second loop just for `j >= 0`.",
+      "wrongExample": "test_cases/Q04/infinite_loop.cpp"
+    },
+    {
+      "category": "edge_case_single",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check how your code handles the case where one or both arrays only have one element.",
+      "hint2": "Does it crash or throw an out-of-bounds error?",
+      "hint3": "Ensure your loop bounds don't require at least 2 elements to function.",
+      "hint4": "Trace with array1=[1] and array2=[].",
+      "wrongExample": "test_cases/Q04/edge_case_single.cpp"
+    },
+    {
+      "category": "edge_case_empty",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What if one or both arrays are completely empty from the beginning?",
+      "hint2": "If the first array is conceptually empty (m=0), your code must just copy the second array over.",
+      "hint3": "Does your code crash if it tries to read index 0 of an empty array?",
+      "hint4": "Check your starting conditions. If `m==0`, just dump array2 into array1.",
+      "wrongExample": "test_cases/Q04/empty.cpp"
+    },
+    {
+      "category": "repeating_numbers",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "How does your logic handle it when the current element in array A is exactly the same as the current element in array B?",
+      "hint2": "Are you skipping duplicates when you shouldn't be?",
+      "hint3": "Both elements must be included in the final merged array.",
+      "hint4": "Use `>=` instead of `>` to safely pick one and decrement its respective pointer.",
+      "wrongExample": "test_cases/Q04/repeating.cpp"
+    },
+    {
+      "category": "wrong_condition",
+      "priority": 7,
+      "detect": {
+        "anyPattern": [
+          "<"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Review how you are deciding which element to place next. Is your > or < sign pointing the right way?",
+      "hint2": "If you are starting from the back, you need to place the LARGEST element first.",
+      "hint3": "Are you picking the smallest element and putting it at the end?",
+      "hint4": "Your condition should be `if (nums1[i] > nums2[j])`.",
+      "wrongExample": "test_cases/Q04/wrong_condition.cpp"
+    }
+  ]
+}

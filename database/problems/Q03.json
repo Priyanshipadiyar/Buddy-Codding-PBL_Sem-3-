@@ -1,0 +1,149 @@
+{
+  "id": "Q03",
+  "title": "Remove Element",
+  "topic": "Arrays",
+  "conceptId": "remove_element",
+  "difficulty": 1,
+  "statement": "Remove all instances of a given value in-place and return the new length.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "4 3\n3 2 2 3\n",
+      "expected": "2\n2 2\n"
+    },
+    {
+      "id": "T2",
+      "visible": false,
+      "input": "3 2\n2 2 2\n",
+      "expected": "0\n\n"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "3 5\n1 2 3\n",
+      "expected": "3\n1 2 3\n"
+    }
+  ],
+  "mistakes": [
+    {
+      "category": "missing_logic",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Try to do something like shifting elements to overwrite the ones you want to remove.",
+      "hint2": "Consider using two pointers: one to scan, one to place the safe elements.",
+      "hint3": "Think about how you would overwrite the target elements instead of creating a new array.",
+      "hint4": "Keep a `write_index` that only moves forward when you see a number different from the target value.",
+      "wrongExample": "test_cases/Q03/missing_logic.cpp"
+    },
+    {
+      "category": "wrong_counter",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "++"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Your counter seems to be adding up every time regardless of the value.",
+      "hint2": "Only increment the counter when the element is NOT the value to remove.",
+      "hint3": "Ensure your counter variable is placed *inside* the `if` block.",
+      "hint4": "The counter should represent the new length of the array without the removed values.",
+      "wrongExample": "test_cases/Q03/wrong_counter.cpp"
+    },
+    {
+      "category": "infinite_loop",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while"
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Check your loop's ending condition.",
+      "hint2": "Is your pointer correctly incrementing to reach the end of the array?",
+      "hint3": "Make sure you aren't accidentally decrementing your loop counter.",
+      "hint4": "Ensure your loop strictly advances `i < n` every iteration.",
+      "wrongExample": "test_cases/Q03/infinite_loop.cpp"
+    },
+    {
+      "category": "edge_case_single_element",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "How does your code behave if the array only has 1 element?",
+      "hint2": "Test your logic on an array of length 1. Does it work?",
+      "hint3": "Does it crash if n=1? Make sure loop bounds handle small inputs.",
+      "hint4": "Add a quick check: `if (n == 0) return 0;`.",
+      "wrongExample": "test_cases/Q03/edge_case_single.cpp"
+    },
+    {
+      "category": "edge_case_not_found",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "hint1": "What happens if the value to remove is completely absent from the array?",
+      "hint2": "If the array is [1, 2, 3] and target is 5, the length should stay 3.",
+      "hint3": "Does your code accidentally modify the array if the target isn't there?",
+      "hint4": "A correct two-pointer approach will simply overwrite the array with its own identical values, which is safe.",
+      "wrongExample": "test_cases/Q03/not_found.cpp"
+    },
+    {
+      "category": "edge_case_all_match",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          ""
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "hint1": "What happens if every element in the array equals the value you need to remove?",
+      "hint2": "If the input is [2, 2, 2] and target is 2, your function should return 0.",
+      "hint3": "Trace your code. Does it correctly overwrite everything or leave a stray 2?",
+      "hint4": "Make sure your pointer strictly starts at 0 and doesn't advance unless it finds a safe element.",
+      "wrongExample": "test_cases/Q03/all_match.cpp"
+    },
+    {
+      "category": "wrong_condition",
+      "priority": 7,
+      "detect": {
+        "anyPattern": [
+          "=="
+        ],
+        "failsAnyOf": [
+          "T1"
+        ]
+      },
+      "hint1": "Are you using `==` when you should be using `!=`?",
+      "hint2": "You only want to keep elements that do NOT match the target value.",
+      "hint3": "If you check `array[i] == val`, you are keeping the elements you are supposed to remove.",
+      "hint4": "Change your inner `if` condition to check for inequality (`!= val`).",
+      "wrongExample": "test_cases/Q03/wrong_condition.cpp"
+    }
+  ]
+}
