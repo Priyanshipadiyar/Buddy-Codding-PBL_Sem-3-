@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+// Retaining existing interface from the zip
 struct GuidanceResponse
 {
     int hintLevel;
@@ -10,7 +11,11 @@ struct GuidanceResponse
 
 class GuidanceEngine
 {
+private:
+    std::string dbPath;
 public:
+    GuidanceEngine(const std::string& dbPath = "database/problems/") : dbPath(dbPath) {}
+    
     GuidanceResponse getGuidance(
         const std::string& problemId,
         const std::string& mistakeCategory,
