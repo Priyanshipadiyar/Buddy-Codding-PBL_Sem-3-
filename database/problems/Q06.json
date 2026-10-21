@@ -22,10 +22,11 @@
   "mistakes": [
     {
       "category": "missing_logic",
-      "priority": 0,
+      "priority": 1,
       "detect": {
         "anyPattern": [
-          ""
+          "return 0;",
+          "return nums[0];"
         ],
         "failsAnyOf": [
           "T1"
@@ -39,10 +40,11 @@
     },
     {
       "category": "negative_not_considered",
-      "priority": 1,
+      "priority": 2,
       "detect": {
         "anyPattern": [
-          ""
+          "nums[n-1] * nums[n-2] * nums[n-3]",
+          "nums[size-1] * nums[size-2] * nums[size-3]"
         ],
         "failsAnyOf": [
           "T2"
@@ -56,10 +58,10 @@
     },
     {
       "category": "negative_not_used",
-      "priority": 2,
+      "priority": 3,
       "detect": {
         "anyPattern": [
-          ""
+          "nums[0] * nums[1] * nums[2]"
         ],
         "failsAnyOf": [
           "T2"
@@ -73,10 +75,12 @@
     },
     {
       "category": "wrong_initialization",
-      "priority": 3,
+      "priority": 4,
       "detect": {
         "anyPattern": [
-          "= 0"
+          "max_product = 0;",
+          "int max_prod = 0;",
+          "= 0;"
         ],
         "failsAnyOf": [
           "T2"
@@ -90,10 +94,10 @@
     },
     {
       "category": "zero_handling",
-      "priority": 4,
+      "priority": 5,
       "detect": {
         "anyPattern": [
-          ""
+          "if (nums[i] == 0) continue;"
         ],
         "failsAnyOf": [
           "T1",
@@ -108,10 +112,10 @@
     },
     {
       "category": "infinite_loop",
-      "priority": 5,
+      "priority": 6,
       "detect": {
         "anyPattern": [
-          "while"
+          "while (i < n)"
         ],
         "failsAnyOf": [
           "T1"

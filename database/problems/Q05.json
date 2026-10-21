@@ -25,7 +25,8 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
-          ""
+          "return 0;",
+          "return prices[0];"
         ],
         "failsAnyOf": [
           "T1"
@@ -42,7 +43,9 @@
       "priority": 2,
       "detect": {
         "anyPattern": [
-          "= 0"
+          "min_price = 0;",
+          "int min_price = 0;",
+          "min_val = 0;"
         ],
         "failsAnyOf": [
           "T1"
@@ -59,7 +62,8 @@
       "priority": 3,
       "detect": {
         "anyPattern": [
-          "while"
+          "while (i < prices.size())",
+          "while (i < n)"
         ],
         "failsAnyOf": [
           "T1"
@@ -76,7 +80,7 @@
       "priority": 4,
       "detect": {
         "anyPattern": [
-          ""
+          "prices[1] - prices[0]"
         ],
         "failsAnyOf": [
           "T1"
@@ -93,7 +97,9 @@
       "priority": 5,
       "detect": {
         "anyPattern": [
-          "+"
+          "min_price - prices[i]",
+          "prices[i] + min_price",
+          "prices[i] * min_price"
         ],
         "failsAnyOf": [
           "T1"
@@ -110,7 +116,7 @@
       "priority": 6,
       "detect": {
         "anyPattern": [
-          ""
+          "max_price - min_price"
         ],
         "failsAnyOf": [
           "T1"
@@ -127,7 +133,8 @@
       "priority": 7,
       "detect": {
         "anyPattern": [
-          "int max_profit = 0;"
+          "int max_profit = 0;",
+          "int max_profit = prices[i] - min_price;"
         ],
         "failsAnyOf": [
           "T1"
@@ -144,7 +151,8 @@
       "priority": 8,
       "detect": {
         "anyPattern": [
-          ""
+          "max_profit = INT_MIN;",
+          "int max_profit = -1;"
         ],
         "failsAnyOf": [
           "T2"

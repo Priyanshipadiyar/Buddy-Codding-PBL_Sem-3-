@@ -25,7 +25,8 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
-          ""
+          "return;",
+          "nums1 = nums2;"
         ],
         "failsAnyOf": [
           "T1"
@@ -42,7 +43,9 @@
       "priority": 2,
       "detect": {
         "anyPattern": [
-          ""
+          "i--; j--;",
+          "i++; j++;",
+          "k--; i--; j--;"
         ],
         "failsAnyOf": [
           "T1"
@@ -59,7 +62,8 @@
       "priority": 3,
       "detect": {
         "anyPattern": [
-          "while"
+          "while (i >= 0 && j >= 0)",
+          "while (i > 0)"
         ],
         "failsAnyOf": [
           "T1"
@@ -76,7 +80,8 @@
       "priority": 4,
       "detect": {
         "anyPattern": [
-          ""
+          "nums1[1]",
+          "nums2[1]"
         ],
         "failsAnyOf": [
           "T1"
@@ -93,7 +98,7 @@
       "priority": 5,
       "detect": {
         "anyPattern": [
-          ""
+          "nums1[0] = nums2[0]"
         ],
         "failsAnyOf": [
           "T2"
@@ -110,7 +115,7 @@
       "priority": 6,
       "detect": {
         "anyPattern": [
-          ""
+          "nums1[i] > nums2[j]"
         ],
         "failsAnyOf": [
           "T1"
@@ -127,7 +132,7 @@
       "priority": 7,
       "detect": {
         "anyPattern": [
-          "<"
+          "nums1[i] < nums2[j]"
         ],
         "failsAnyOf": [
           "T1"

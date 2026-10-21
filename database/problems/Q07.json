@@ -25,11 +25,11 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
-  "->val\\s*==",
-  "==\\s*\\w+->val",
-  "->val\\s*!=",
-  "!=\\s*\\w+->val"
-],
+          "ptrA->val == ptrB->val",
+          "headA->val == headB->val",
+          "a->val == b->val",
+          "p1->val == p2->val"
+        ],
         "failsAnyOf": [
           "T1"
         ]
@@ -45,7 +45,8 @@
       "priority": 2,
       "detect": {
         "anyPattern": [
-          ""
+          "headA->next",
+          "headB->next"
         ],
         "failsAnyOf": [
           "T1"
@@ -62,9 +63,9 @@
       "priority": 3,
       "detect": {
         "anyPattern": [
-  "while\\s*\\([^)]*&&",
-  "while\\s*\\([^)]*\\|\\|"
-],
+          "while (ptrA != NULL && ptrB != NULL)",
+          "while (ptrA && ptrB)"
+        ],
         "failsAnyOf": [
           "T1"
         ]
@@ -80,7 +81,8 @@
       "priority": 4,
       "detect": {
         "anyPattern": [
-          ""
+          "while (true)",
+          "while (1)"
         ],
         "failsAnyOf": [
           "T2"
@@ -97,7 +99,8 @@
       "priority": 5,
       "detect": {
         "anyPattern": [
-          ""
+          "ptrA = ptrA->next;",
+          "ptrB = ptrB->next;"
         ],
         "failsAnyOf": [
           "T1"
@@ -114,7 +117,8 @@
       "priority": 6,
       "detect": {
         "anyPattern": [
-          ""
+          "ptrA = headA;",
+          "ptrB = headB;"
         ],
         "failsAnyOf": [
           "T1"

@@ -31,6 +31,9 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
+          "int max = 0;",
+          "int max_val = 0;",
+          "int largest = 0;",
           "= 0;"
         ],
         "failsAnyOf": [
@@ -49,7 +52,10 @@
       "detect": {
         "anyPattern": [
           "< n - 1",
-          "< n-1"
+          "< n-1",
+          "< size - 1",
+          "< len - 1",
+          "<= n - 2"
         ],
         "failsAnyOf": [
           "T3"
@@ -68,7 +74,9 @@
         "anyPattern": [
           "if (arr[i] < max_val)",
           "if (array[i] < max_val)",
-          "if (current_element < current_max)"
+          "if (current_element < current_max)",
+          "arr[i] < max",
+          "nums[i] < max"
         ],
         "failsAnyOf": [
           "T1",
@@ -89,7 +97,8 @@
         "anyPattern": [
           "return i;",
           "cout << i;",
-          "printf(\"%d\", i);"
+          "printf(\"%d\", i);",
+          "return index;"
         ],
         "failsAnyOf": [
           "T1",
