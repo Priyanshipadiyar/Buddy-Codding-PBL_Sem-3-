@@ -8,6 +8,9 @@ struct GuidanceData {
     std::string hint2;
     std::string hint3;
     std::string hint4;
+    std::string hint5;
+    std::string hint6;
+    std::string hint7;
 };
 
 class GuidanceRepository {
