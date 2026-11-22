@@ -1,0 +1,225 @@
+{
+  "id": "Q23",
+  "title": "Swap Two Numbers",
+  "topic": "Basics",
+  "conceptId": "swap_two_numbers",
+  "difficulty": 1,
+  "statement": "Swap two numbers without using a third variable.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5 10\n",
+      "expected": "10 5\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "0 7\n",
+      "expected": "7 0\n",
+      "purpose": "swap with zero"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "-3 8\n",
+      "expected": "8 -3\n",
+      "purpose": "mixed signs"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "5 5\n",
+      "expected": "5 5\n",
+      "purpose": "equal values"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "1 2\n",
+      "expected": "2 1\n",
+      "purpose": "simple values"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "-7 -9\n",
+      "expected": "-9 -7\n",
+      "purpose": "both negative"
+    }
+  ],
+  "inputOutputContract": "Input two signed integers; output their values in swapped order, no third temporary variable. Avoid signed-overflow-prone implementations.",
+  "mistakes": [
+    {
+      "category": "overwrites_right_with_left",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "*right = *left;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_overwrites_right_with_left.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_overwrites_right_with_left.c",
+        "CPP": "test_cases/Q23/CPP/wrong_overwrites_right_with_left.cpp"
+      },
+      "hint1": "Inspect the overwrites right with left behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `*right = *left;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in overwrites right with left, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `*right = *left;` with `*right ^= *left;` in swapWithoutTemporary, then retest T1–T6."
+    },
+    {
+      "category": "overwrites_left_with_right",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "*left = *right;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_overwrites_left_with_right.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_overwrites_left_with_right.c",
+        "CPP": "test_cases/Q23/CPP/wrong_overwrites_left_with_right.cpp"
+      },
+      "hint1": "Inspect the overwrites left with right behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `*left = *right;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in overwrites left with right, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `*left = *right;` with `*left ^= *right;` in swapWithoutTemporary, then retest T1–T6."
+    },
+    {
+      "category": "omits_final_xor",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "*left ^= 0;\n    *right ^= *left;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_omits_final_xor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_omits_final_xor.c",
+        "CPP": "test_cases/Q23/CPP/wrong_omits_final_xor.cpp"
+      },
+      "hint1": "Inspect the omits final xor behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `*left ^= 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits final xor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `*left ^= 0;` with `*left ^= *right;` in swapWithoutTemporary, then retest T1–T6."
+    },
+    {
+      "category": "omits_middle_xor",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "*right ^= 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_omits_middle_xor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_omits_middle_xor.c",
+        "CPP": "test_cases/Q23/CPP/wrong_omits_middle_xor.cpp"
+      },
+      "hint1": "Inspect the omits middle xor behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `*right ^= 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits middle xor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `*right ^= 0;` with `*right ^= *left;` in swapWithoutTemporary, then retest T1–T6."
+    },
+    {
+      "category": "zeros_second_value",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "*left ^= *right;\n    *right = 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_zeros_second_value.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_zeros_second_value.c",
+        "CPP": "test_cases/Q23/CPP/wrong_zeros_second_value.cpp"
+      },
+      "hint1": "Inspect the zeros second value behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `*right = 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in zeros second value, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `*right = 0;` with `*right ^= *left;` in swapWithoutTemporary, then retest T1–T6."
+    },
+    {
+      "category": "passes_same_address_twice",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "swapWithoutTemporary(&left, &left);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q23/CPP/wrong_passes_same_address_twice.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q23/C/wrong_passes_same_address_twice.c",
+        "CPP": "test_cases/Q23/CPP/wrong_passes_same_address_twice.cpp"
+      },
+      "hint1": "Inspect the passes same address twice behavior in swapWithoutTemporary; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of swapWithoutTemporary: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `swapWithoutTemporary(&left, &left);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in passes same address twice, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Perform the XOR swap in all three stages without aliasing the two locations.",
+      "hint7": "A targeted correction is to replace `swapWithoutTemporary(&left, &left);` with `swapWithoutTemporary(&left, &right);` in swapWithoutTemporary, then retest T1–T6."
+    }
+  ]
+}

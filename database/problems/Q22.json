@@ -1,0 +1,220 @@
+{
+  "id": "Q22",
+  "title": "String Length without strlen",
+  "topic": "Strings",
+  "conceptId": "string_length_without_strlen",
+  "difficulty": 1,
+  "statement": "Find the length of a string without using library functions.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "hello\n",
+      "expected": "5\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "a\n",
+      "expected": "1\n",
+      "purpose": "single character"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "abcde\n",
+      "expected": "5\n",
+      "purpose": "five characters"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "1234567890\n",
+      "expected": "10\n",
+      "purpose": "digits in string"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "zzzz\n",
+      "expected": "4\n",
+      "purpose": "repeated character"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "aBcDeF\n",
+      "expected": "6\n",
+      "purpose": "mixed case"
+    }
+  ],
+  "inputOutputContract": "Input is one whitespace-free ASCII word; count characters without calling strlen or other string-length routines.",
+  "mistakes": [
+    {
+      "category": "assumes_every_string_has_length_one",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "int count = 1; return count;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_assumes_every_string_has_length_one.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_assumes_every_string_has_length_one.c",
+        "CPP": "test_cases/Q22/CPP/wrong_assumes_every_string_has_length_one.cpp"
+      },
+      "hint1": "Inspect the assumes every string has length one behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int count = 1; return count;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in assumes every string has length one, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `int count = 1; return count;` with `int count = 0;` in stringLength, then retest T1–T6."
+    },
+    {
+      "category": "stops_before_last_character",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "text[count + 1] != '\\0'"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_stops_before_last_character.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_stops_before_last_character.c",
+        "CPP": "test_cases/Q22/CPP/wrong_stops_before_last_character.cpp"
+      },
+      "hint1": "Inspect the stops before last character behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `text[count + 1] != '\\0'`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in stops before last character, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `text[count + 1] != '\\0'` with `text[count] != '\\0'` in stringLength, then retest T1–T6."
+    },
+    {
+      "category": "includes_null_terminator",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "return count + 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_includes_null_terminator.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_includes_null_terminator.c",
+        "CPP": "test_cases/Q22/CPP/wrong_includes_null_terminator.cpp"
+      },
+      "hint1": "Inspect the includes null terminator behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return count + 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in includes null terminator, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `return count + 1;` with `return count;` in stringLength, then retest T1–T6."
+    },
+    {
+      "category": "stops_on_letter_a",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "text[count] != '\\0' && text[count] != 'a'"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_stops_on_letter_a.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_stops_on_letter_a.c",
+        "CPP": "test_cases/Q22/CPP/wrong_stops_on_letter_a.cpp"
+      },
+      "hint1": "Inspect the stops on letter a behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `text[count] != '\\0' && text[count] != 'a'`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in stops on letter a, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `text[count] != '\\0' && text[count] != 'a'` with `text[count] != '\\0'` in stringLength, then retest T1–T6."
+    },
+    {
+      "category": "counts_only_letters",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "text[count] != '\\0' && isalpha((unsigned char)text[count])"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_counts_only_letters.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_counts_only_letters.c",
+        "CPP": "test_cases/Q22/CPP/wrong_counts_only_letters.cpp"
+      },
+      "hint1": "Inspect the counts only letters behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `text[count] != '\\0' && isalpha((unsigned char)text[count])`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in counts only letters, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `text[count] != '\\0' && isalpha((unsigned char)text[count])` with `text[count] != '\\0'` in stringLength, then retest T1–T6."
+    },
+    {
+      "category": "subtracts_one_from_length",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "return count - 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q22/CPP/wrong_subtracts_one_from_length.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q22/C/wrong_subtracts_one_from_length.c",
+        "CPP": "test_cases/Q22/CPP/wrong_subtracts_one_from_length.cpp"
+      },
+      "hint1": "Inspect the subtracts one from length behavior in stringLength; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of stringLength: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return count - 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in subtracts one from length, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Count string characters up to but not including the null terminator, without calling strlen.",
+      "hint7": "A targeted correction is to replace `return count - 1;` with `return count;` in stringLength, then retest T1–T6."
+    }
+  ]
+}

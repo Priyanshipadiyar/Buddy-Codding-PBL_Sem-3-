@@ -1,0 +1,221 @@
+{
+  "id": "Q27",
+  "title": "Middle of Linked List",
+  "topic": "Linked Lists",
+  "conceptId": "middle_of_linked_list",
+  "difficulty": 2,
+  "statement": "Find the middle node of a linked list.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5\n1 2 3 4 5\n",
+      "expected": "3\n",
+      "purpose": "odd length middle"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "1\n9\n",
+      "expected": "9\n",
+      "purpose": "one node"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "2\n8 4\n",
+      "expected": "4\n",
+      "purpose": "even length upper middle"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "4\n1 2 3 4\n",
+      "expected": "3\n",
+      "purpose": "even length"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "7\n7 6 5 4 3 2 1\n",
+      "expected": "4\n",
+      "purpose": "long odd length"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "6\n2 2 4 4 6 6\n",
+      "expected": "4\n",
+      "purpose": "repeated values"
+    }
+  ],
+  "inputOutputContract": "Input n followed by head-to-tail list values, n>=1; if n even, choose the second of the two middle nodes.",
+  "mistakes": [
+    {
+      "category": "fast_moves_only_one_node",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "fast = fast->next;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_fast_moves_only_one_node.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_fast_moves_only_one_node.c",
+        "CPP": "test_cases/Q27/CPP/wrong_fast_moves_only_one_node.cpp"
+      },
+      "hint1": "Inspect the fast moves only one node behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `fast = fast->next;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in fast moves only one node, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `fast = fast->next;` with `fast = fast->next->next;` in findMiddle, then retest T1–T6."
+    },
+    {
+      "category": "slow_moves_two_nodes",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "slow = slow->next ? slow->next->next : slow->next;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_slow_moves_two_nodes.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_slow_moves_two_nodes.c",
+        "CPP": "test_cases/Q27/CPP/wrong_slow_moves_two_nodes.cpp"
+      },
+      "hint1": "Inspect the slow moves two nodes behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `slow = slow->next ? slow->next->next : slow->next;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in slow moves two nodes, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `slow = slow->next ? slow->next->next : slow->next;` with `slow = slow->next;` in findMiddle, then retest T1–T6."
+    },
+    {
+      "category": "returns_first_even_middle",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while (fast && fast->next && fast->next->next)"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_returns_first_even_middle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_returns_first_even_middle.c",
+        "CPP": "test_cases/Q27/CPP/wrong_returns_first_even_middle.cpp"
+      },
+      "hint1": "Inspect the returns first even middle behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `while (fast && fast->next && fast->next->next)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in returns first even middle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `while (fast && fast->next && fast->next->next)` with `while (fast && fast->next)` in findMiddle, then retest T1–T6."
+    },
+    {
+      "category": "returns_head_not_middle",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "}\n    return head;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_returns_head_not_middle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_returns_head_not_middle.c",
+        "CPP": "test_cases/Q27/CPP/wrong_returns_head_not_middle.cpp"
+      },
+      "hint1": "Inspect the returns head not middle behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return head;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in returns head not middle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `return head;` with `return slow;` in findMiddle, then retest T1–T6."
+    },
+    {
+      "category": "returns_successor_of_middle",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "return slow ? slow->next : slow;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_returns_successor_of_middle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_returns_successor_of_middle.c",
+        "CPP": "test_cases/Q27/CPP/wrong_returns_successor_of_middle.cpp"
+      },
+      "hint1": "Inspect the returns successor of middle behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return slow ? slow->next : slow;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in returns successor of middle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `return slow ? slow->next : slow;` with `return slow;` in findMiddle, then retest T1–T6."
+    },
+    {
+      "category": "starts_slow_one_node_ahead",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "Node* slow = head ? head->next : head; Node* fast = head;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q27/CPP/wrong_starts_slow_one_node_ahead.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q27/C/wrong_starts_slow_one_node_ahead.c",
+        "CPP": "test_cases/Q27/CPP/wrong_starts_slow_one_node_ahead.cpp"
+      },
+      "hint1": "Inspect the starts slow one node ahead behavior in findMiddle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / head / slow / fast at each iteration or recursive return.",
+      "hint3": "Check the invariant of findMiddle: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `Node* slow = head ? head->next : head; Node* fast = head;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in starts slow one node ahead, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Slow advances one Node and fast advances two; the second middle is required for even length.",
+      "hint7": "A targeted correction is to replace `Node* slow = head ? head->next : head; Node* fast = head;` with `Node* slow = head; Node* fast = head;` in findMiddle, then retest T1–T6."
+    }
+  ]
+}

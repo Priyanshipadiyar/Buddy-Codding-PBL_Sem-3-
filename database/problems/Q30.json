@@ -1,0 +1,220 @@
+{
+  "id": "Q30",
+  "title": "Implement Queue using Stacks",
+  "topic": "Queues",
+  "conceptId": "implement_queue_using_stacks",
+  "difficulty": 2,
+  "statement": "Implement Queue operations using two stacks.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "push 1\npop\n",
+      "expected": "1\n",
+      "purpose": "single push pop"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "push 8\npush 9\npop\npop\n",
+      "expected": "8\n9\n",
+      "purpose": "FIFO"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "pop\n",
+      "expected": "-1\n",
+      "purpose": "empty pop"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "push 1\npush 2\npop\npush 3\npop\npop\n",
+      "expected": "1\n2\n3\n",
+      "purpose": "interleaved operations"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "push -7\npop\n",
+      "expected": "-7\n",
+      "purpose": "negative value"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "push 5\npop\npop\n",
+      "expected": "5\n-1\n",
+      "purpose": "exhausted queue"
+    }
+  ],
+  "inputOutputContract": "Read push x and pop operations, one per line until EOF. pop outputs front value on its own line or -1 if empty.",
+  "mistakes": [
+    {
+      "category": "dequeues_from_input_stack",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "return isEmpty(&queue->s1) ? -1 : pop(&queue->s1);",
+          "return s1.isEmpty() ? -1 : s1.pop();"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_dequeues_from_input_stack.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_dequeues_from_input_stack.c",
+        "CPP": "test_cases/Q30/CPP/wrong_dequeues_from_input_stack.cpp"
+      },
+      "hint1": "Inspect the dequeues from input stack behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return isEmpty(&queue->s1) ? -1 : pop(&queue->s1);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in dequeues from input stack, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `return isEmpty(&queue->s1) ? -1 : pop(&queue->s1);` with `return isEmpty(&queue->s2) ? -1 : pop(&queue->s2);` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    },
+    {
+      "category": "transfers_only_one_item",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "if (!isEmpty(&queue->s1)) push(&queue->s2, pop(&queue->s1));",
+          "if (!s1.isEmpty()) s2.push(s1.pop());"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_transfers_only_one_item.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_transfers_only_one_item.c",
+        "CPP": "test_cases/Q30/CPP/wrong_transfers_only_one_item.cpp"
+      },
+      "hint1": "Inspect the transfers only one item behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (!isEmpty(&queue->s1)) push(&queue->s2, pop(&queue->s1));`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in transfers only one item, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `if (!isEmpty(&queue->s1)) push(&queue->s2, pop(&queue->s1));` with `while (!isEmpty(&queue->s1)) push(&queue->s2, pop(&queue->s1));` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    },
+    {
+      "category": "puts_new_items_on_output_stack",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "void enqueue(Queue* queue, int value) { push(&queue->s2, value); }",
+          "void enqueue(int value) { s2.push(value); }"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_puts_new_items_on_output_stack.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_puts_new_items_on_output_stack.c",
+        "CPP": "test_cases/Q30/CPP/wrong_puts_new_items_on_output_stack.cpp"
+      },
+      "hint1": "Inspect the puts new items on output stack behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `void enqueue(Queue* queue, int value) { push(&queue->s2, value); }`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in puts new items on output stack, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `void enqueue(Queue* queue, int value) { push(&queue->s2, value); }` with `void enqueue(Queue* queue, int value) { push(&queue->s1, value); }` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    },
+    {
+      "category": "wrong_empty_queue_sentinel",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "return isEmpty(&queue->s2) ? 0 : pop(&queue->s2);",
+          "return s2.isEmpty() ? 0 : s2.pop();"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_wrong_empty_queue_sentinel.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_wrong_empty_queue_sentinel.c",
+        "CPP": "test_cases/Q30/CPP/wrong_wrong_empty_queue_sentinel.cpp"
+      },
+      "hint1": "Inspect the wrong empty queue sentinel behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return isEmpty(&queue->s2) ? 0 : pop(&queue->s2);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in wrong empty queue sentinel, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `return isEmpty(&queue->s2) ? 0 : pop(&queue->s2);` with `return isEmpty(&queue->s2) ? -1 : pop(&queue->s2);` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    },
+    {
+      "category": "discards_enqueue_values",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "void enqueue(Queue* queue, int value) { (void)queue; (void)value; }",
+          "void enqueue(int value) { (void)value; }"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_discards_enqueue_values.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_discards_enqueue_values.c",
+        "CPP": "test_cases/Q30/CPP/wrong_discards_enqueue_values.cpp"
+      },
+      "hint1": "Inspect the discards enqueue values behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `void enqueue(Queue* queue, int value) { (void)queue; (void)value; }`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in discards enqueue values, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `void enqueue(Queue* queue, int value) { (void)queue; (void)value; }` with `void enqueue(Queue* queue, int value) { push(&queue->s1, value); }` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    },
+    {
+      "category": "adds_one_to_dequeued_value",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "return isEmpty(&queue->s2) ? -1 : (pop(&queue->s2) + 1);",
+          "return s2.isEmpty() ? -1 : (s2.pop() + 1);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q30/CPP/wrong_adds_one_to_dequeued_value.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q30/C/wrong_adds_one_to_dequeued_value.c",
+        "CPP": "test_cases/Q30/CPP/wrong_adds_one_to_dequeued_value.cpp"
+      },
+      "hint1": "Inspect the adds one to dequeued value behavior in Queue.enqueue / Queue.dequeue; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Queue / s1 / s2 / enqueue / dequeue at each iteration or recursive return.",
+      "hint3": "Check the invariant of Queue.enqueue / Queue.dequeue: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return isEmpty(&queue->s2) ? -1 : (pop(&queue->s2) + 1);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds one to dequeued value, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Queue.enqueue pushes to s1; dequeue transfers to s2 only when needed and returns FIFO order.",
+      "hint7": "A targeted correction is to replace `return isEmpty(&queue->s2) ? -1 : (pop(&queue->s2) + 1);` with `return isEmpty(&queue->s2) ? -1 : pop(&queue->s2);` in Queue.enqueue / Queue.dequeue, then retest T1–T6."
+    }
+  ]
+}

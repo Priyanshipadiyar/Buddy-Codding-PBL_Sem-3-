@@ -1,0 +1,206 @@
+{
+  "id": "Q18",
+  "title": "Check Prime Number",
+  "topic": "Math",
+  "conceptId": "check_prime_number",
+  "difficulty": 1,
+  "statement": "Determine if a number is prime.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "7\n",
+      "expected": "yes\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "2\n",
+      "expected": "yes\n",
+      "purpose": "smallest prime"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "1\n",
+      "expected": "no\n",
+      "purpose": "one is not prime"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "4\n",
+      "expected": "no\n",
+      "purpose": "small composite"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "97\n",
+      "expected": "yes\n",
+      "purpose": "larger prime"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "49\n",
+      "expected": "no\n",
+      "purpose": "perfect square composite"
+    }
+  ],
+  "inputOutputContract": "Input integer n; output exactly yes for prime and no otherwise; n<2 is not prime.",
+  "mistakes": [
+    {
+      "category": "treats_one_as_prime",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "if (n < 2) return 1;"
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_treats_one_as_prime.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_treats_one_as_prime.c",
+        "CPP": "test_cases/Q18/CPP/wrong_treats_one_as_prime.cpp"
+      },
+      "hint1": "Inspect the treats one as prime behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (n < 2) return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in treats one as prime, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `if (n < 2) return 1;` with `if (n < 2) return 0;` in isPrime, then retest T1–T6."
+    },
+    {
+      "category": "starts_divisors_at_one",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "int divisor = 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_starts_divisors_at_one.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_starts_divisors_at_one.c",
+        "CPP": "test_cases/Q18/CPP/wrong_starts_divisors_at_one.cpp"
+      },
+      "hint1": "Inspect the starts divisors at one behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int divisor = 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in starts divisors at one, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `int divisor = 1;` with `int divisor = 2;` in isPrime, then retest T1–T6."
+    },
+    {
+      "category": "inverted_modulo_check",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "if (n % divisor != 0) return 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_inverted_modulo_check.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_inverted_modulo_check.c",
+        "CPP": "test_cases/Q18/CPP/wrong_inverted_modulo_check.cpp"
+      },
+      "hint1": "Inspect the inverted modulo check behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (n % divisor != 0) return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in inverted modulo check, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `if (n % divisor != 0) return 0;` with `if (n % divisor == 0) return 0;` in isPrime, then retest T1–T6."
+    },
+    {
+      "category": "misses_perfect_square_divisor",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "divisor < n / divisor"
+        ],
+        "failsAnyOf": [
+          "T4",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_misses_perfect_square_divisor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_misses_perfect_square_divisor.c",
+        "CPP": "test_cases/Q18/CPP/wrong_misses_perfect_square_divisor.cpp"
+      },
+      "hint1": "Inspect the misses perfect square divisor behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `divisor < n / divisor`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in misses perfect square divisor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `divisor < n / divisor` with `divisor <= n / divisor` in isPrime, then retest T1–T6."
+    },
+    {
+      "category": "rejects_all_primes",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "return 0;\n}\nint main(void) {"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_rejects_all_primes.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_rejects_all_primes.c",
+        "CPP": "test_cases/Q18/CPP/wrong_rejects_all_primes.cpp"
+      },
+      "hint1": "Inspect the rejects all primes behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in rejects all primes, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `return 0;` with `return 1;` in isPrime, then retest T1–T6."
+    },
+    {
+      "category": "skips_even_divisor",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "int divisor = 3;"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q18/CPP/wrong_skips_even_divisor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q18/C/wrong_skips_even_divisor.c",
+        "CPP": "test_cases/Q18/CPP/wrong_skips_even_divisor.cpp"
+      },
+      "hint1": "Inspect the skips even divisor behavior in isPrime; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPrime: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int divisor = 3;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in skips even divisor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Treat values below 2 as non-prime and check divisors through the square root.",
+      "hint7": "A targeted correction is to replace `int divisor = 3;` with `int divisor = 2;` in isPrime, then retest T1–T6."
+    }
+  ]
+}

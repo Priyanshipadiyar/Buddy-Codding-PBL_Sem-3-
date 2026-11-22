@@ -1,0 +1,210 @@
+{
+  "id": "Q33",
+  "title": "Bubble Sort",
+  "topic": "Sorting",
+  "conceptId": "bubble_sort",
+  "difficulty": 1,
+  "statement": "Sort an array using bubble sort.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "4\n4 3 2 1\n",
+      "expected": "1 2 3 4\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "1\n8\n",
+      "expected": "8\n",
+      "purpose": "single element"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "5\n1 2 3 4 5\n",
+      "expected": "1 2 3 4 5\n",
+      "purpose": "already sorted"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "5\n5 5 5 5 5\n",
+      "expected": "5 5 5 5 5\n",
+      "purpose": "all equal"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "6\n0 -2 8 7 -5 1\n",
+      "expected": "-5 -2 0 1 7 8\n",
+      "purpose": "signed values"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "2\n9 1\n",
+      "expected": "1 9\n",
+      "purpose": "two elements"
+    }
+  ],
+  "inputOutputContract": "Input n followed by n integers; output ascending order with spaces.",
+  "mistakes": [
+    {
+      "category": "sorts_descending",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "if (arr[j] < arr[j + 1])"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_sorts_descending.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_sorts_descending.c",
+        "CPP": "test_cases/Q33/CPP/wrong_sorts_descending.cpp"
+      },
+      "hint1": "Inspect the sorts descending behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (arr[j] < arr[j + 1])`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in sorts descending, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `if (arr[j] < arr[j + 1])` with `if (arr[j] > arr[j + 1])` in bubbleSort, then retest T1–T6."
+    },
+    {
+      "category": "skips_last_adjacent_pair",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "j < n - pass - 2"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_skips_last_adjacent_pair.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_skips_last_adjacent_pair.c",
+        "CPP": "test_cases/Q33/CPP/wrong_skips_last_adjacent_pair.cpp"
+      },
+      "hint1": "Inspect the skips last adjacent pair behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `j < n - pass - 2`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in skips last adjacent pair, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `j < n - pass - 2` with `j < n - pass - 1` in bubbleSort, then retest T1–T6."
+    },
+    {
+      "category": "runs_only_one_bubble_pass",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "for (int pass = 0; pass < 1; ++pass) {"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_runs_only_one_bubble_pass.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_runs_only_one_bubble_pass.c",
+        "CPP": "test_cases/Q33/CPP/wrong_runs_only_one_bubble_pass.cpp"
+      },
+      "hint1": "Inspect the runs only one bubble pass behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `pass < 1`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in runs only one bubble pass, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `pass < 1` with `pass < n - 1` in bubbleSort, then retest T1–T6."
+    },
+    {
+      "category": "breaks_when_swapped",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "if (swapped) break;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_breaks_when_swapped.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_breaks_when_swapped.c",
+        "CPP": "test_cases/Q33/CPP/wrong_breaks_when_swapped.cpp"
+      },
+      "hint1": "Inspect the breaks when swapped behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (swapped) break;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in breaks when swapped, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `if (swapped) break;` with `if (!swapped) break;` in bubbleSort, then retest T1–T6."
+    },
+    {
+      "category": "skips_first_adjacent_pair",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "int j = 1; j < n - pass - 1"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_skips_first_adjacent_pair.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_skips_first_adjacent_pair.c",
+        "CPP": "test_cases/Q33/CPP/wrong_skips_first_adjacent_pair.cpp"
+      },
+      "hint1": "Inspect the skips first adjacent pair behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int j = 1; j < n - pass - 1`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in skips first adjacent pair, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `int j = 1; j < n - pass - 1` with `int j = 0; j < n - pass - 1` in bubbleSort, then retest T1–T6."
+    },
+    {
+      "category": "duplicates_instead_of_swapping",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "arr[j + 1] = arr[j];"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q33/CPP/wrong_duplicates_instead_of_swapping.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q33/C/wrong_duplicates_instead_of_swapping.c",
+        "CPP": "test_cases/Q33/CPP/wrong_duplicates_instead_of_swapping.cpp"
+      },
+      "hint1": "Inspect the duplicates instead of swapping behavior in bubbleSort; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of bubbleSort: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `arr[j + 1] = arr[j];`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in duplicates instead of swapping, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Compare adjacent elements, swap out-of-order pairs and continue passes until sorted.",
+      "hint7": "A targeted correction is to replace `arr[j + 1] = arr[j];` with `arr[j + 1] = temp;` in bubbleSort, then retest T1–T6."
+    }
+  ]
+}

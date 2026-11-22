@@ -1,0 +1,212 @@
+{
+  "id": "Q11",
+  "title": "Check Palindrome String",
+  "topic": "Strings",
+  "conceptId": "check_palindrome_string",
+  "difficulty": 1,
+  "statement": "Check if a given string is a palindrome.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "madam\n",
+      "expected": "yes\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "racecar\n",
+      "expected": "yes\n",
+      "purpose": "odd palindrome"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "abba\n",
+      "expected": "yes\n",
+      "purpose": "even palindrome"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "abca\n",
+      "expected": "no\n",
+      "purpose": "non-palindrome middle"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "a\n",
+      "expected": "yes\n",
+      "purpose": "one character"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "abcba\n",
+      "expected": "yes\n",
+      "purpose": "center character"
+    }
+  ],
+  "inputOutputContract": "Case-sensitive comparison; input one whitespace-free word; output exactly yes or no (lowercase).",
+  "mistakes": [
+    {
+      "category": "accepts_mismatched_characters",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "if (text[left] == text[right]) return 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_accepts_mismatched_characters.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_accepts_mismatched_characters.c",
+        "CPP": "test_cases/Q11/CPP/wrong_accepts_mismatched_characters.cpp"
+      },
+      "hint1": "Inspect the accepts mismatched characters behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (text[left] == text[right]) return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in accepts mismatched characters, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `if (text[left] == text[right]) return 0;` with `if (text[left] != text[right]) return 0;` in isPalindrome, then retest T1–T6."
+    },
+    {
+      "category": "wrong_right_endpoint",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "(int)strlen(text) - 2"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_wrong_right_endpoint.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_wrong_right_endpoint.c",
+        "CPP": "test_cases/Q11/CPP/wrong_wrong_right_endpoint.cpp"
+      },
+      "hint1": "Inspect the wrong right endpoint behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `(int)strlen(text) - 2`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in wrong right endpoint, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `(int)strlen(text) - 2` with `(int)strlen(text) - 1` in isPalindrome, then retest T1–T6."
+    },
+    {
+      "category": "skips_middle_comparison",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "while (left + 1 < right)"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_skips_middle_comparison.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_skips_middle_comparison.c",
+        "CPP": "test_cases/Q11/CPP/wrong_skips_middle_comparison.cpp"
+      },
+      "hint1": "Inspect the skips middle comparison behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `while (left + 1 < right)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in skips middle comparison, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `while (left + 1 < right)` with `while (left < right)` in isPalindrome, then retest T1–T6."
+    },
+    {
+      "category": "compares_adjacent_not_mirrored",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "if (text[left] != text[left + 1])"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_compares_adjacent_not_mirrored.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_compares_adjacent_not_mirrored.c",
+        "CPP": "test_cases/Q11/CPP/wrong_compares_adjacent_not_mirrored.cpp"
+      },
+      "hint1": "Inspect the compares adjacent not mirrored behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (text[left] != text[left + 1])`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in compares adjacent not mirrored, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `if (text[left] != text[left + 1])` with `if (text[left] != text[right])` in isPalindrome, then retest T1–T6."
+    },
+    {
+      "category": "always_says_yes_on_mismatch",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "if (text[left] != text[right]) return 1;"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_always_says_yes_on_mismatch.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_always_says_yes_on_mismatch.c",
+        "CPP": "test_cases/Q11/CPP/wrong_always_says_yes_on_mismatch.cpp"
+      },
+      "hint1": "Inspect the always says yes on mismatch behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (text[left] != text[right]) return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in always says yes on mismatch, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `if (text[left] != text[right]) return 1;` with `if (text[left] != text[right]) return 0;` in isPalindrome, then retest T1–T6."
+    },
+    {
+      "category": "always_says_no",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "}\n    return 0;\n}"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q11/CPP/wrong_always_says_no.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q11/C/wrong_always_says_no.c",
+        "CPP": "test_cases/Q11/CPP/wrong_always_says_no.cpp"
+      },
+      "hint1": "Inspect the always says no behavior in isPalindrome; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isPalindrome: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in always says no, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use left and right indices to compare truly mirrored characters until they cross.",
+      "hint7": "A targeted correction is to replace `return 0;` with `return 1;` in isPalindrome, then retest T1–T6."
+    }
+  ]
+}

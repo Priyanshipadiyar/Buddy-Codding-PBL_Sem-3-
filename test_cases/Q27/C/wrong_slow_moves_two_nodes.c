@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <limits.h>
+
+typedef struct Node { int data; struct Node* next; } Node;
+Node* createNode(int val) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    if (!node) exit(1);
+    node->data = val; node->next = NULL; return node;
+}
+Node* insertEnd(Node* head, int val) {
+    Node* node = createNode(val);
+    if (!head) return node;
+    Node* curr = head;
+    while (curr->next) curr = curr->next;
+    curr->next = node; return head;
+}
+void printList(const Node* head) {
+    const Node* curr = head; int first = 1;
+    while (curr) { printf("%s%d", first ? "" : " ", curr->data); first = 0; curr = curr->next; }
+    printf("\n");
+}
+void freeList(Node* head) {
+    while (head) { Node* next = head->next; free(head); head = next; }
+}
+
+Node* findMiddle(Node* head) {
+    Node* slow = head; Node* fast = head;
+    while (fast && fast->next) {
+        slow = slow->next ? slow->next->next : slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+int main(void) {
+    int n, value; Node* head = NULL;
+    if (scanf("%d", &n) != 1) return 0;
+    for (int i = 0; i < n; ++i) { scanf("%d", &value); head = insertEnd(head, value); }
+    Node* middle = findMiddle(head);
+    if (middle) printf("%d\n", middle->data);
+    freeList(head); return 0;
+}

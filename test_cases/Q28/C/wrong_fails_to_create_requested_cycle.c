@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <limits.h>
+
+typedef struct Node { int data; struct Node* next; } Node;
+Node* createNode(int val) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    if (!node) exit(1);
+    node->data = val; node->next = NULL; return node;
+}
+Node* insertEnd(Node* head, int val) {
+    Node* node = createNode(val);
+    if (!head) return node;
+    Node* curr = head;
+    while (curr->next) curr = curr->next;
+    curr->next = node; return head;
+}
+void printList(const Node* head) {
+    const Node* curr = head; int first = 1;
+    while (curr) { printf("%s%d", first ? "" : " ", curr->data); first = 0; curr = curr->next; }
+    printf("\n");
+}
+void freeList(Node* head) {
+    while (head) { Node* next = head->next; free(head); head = next; }
+}
+
+int hasCycle(Node* head) {
+    Node* slow = head; Node* fast = head;
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return 1;
+    }
+    return 0;
+}
+int main(void) {
+    int n, cyclePos, value;
+    if (scanf("%d%d", &n, &cyclePos) != 2) return 0;
+    Node* head = NULL; Node* nodes[10000];
+    for (int i = 0; i < n; ++i) { scanf("%d", &value); head = insertEnd(head, value); }
+    Node* curr = head;
+    for (int i = 0; i < n; ++i) { nodes[i] = curr; curr = curr->next; }
+    if (n > 0 && cyclePos >= 0 && cyclePos < n) nodes[n - 1]->next = NULL;
+    printf("%s\n", hasCycle(head) ? "yes" : "no");
+    if (n > 0) nodes[n - 1]->next = NULL;
+    freeList(head); return 0;
+}

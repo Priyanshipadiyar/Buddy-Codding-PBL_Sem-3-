@@ -1,0 +1,219 @@
+{
+  "id": "Q10",
+  "title": "Factorial of a Number",
+  "topic": "Math",
+  "conceptId": "factorial_of_a_number",
+  "difficulty": 1,
+  "statement": "Calculate the factorial of a given integer N.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5\n",
+      "expected": "120\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "0\n",
+      "expected": "1\n",
+      "purpose": "zero factorial"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "1\n",
+      "expected": "1\n",
+      "purpose": "factorial of one"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "2\n",
+      "expected": "2\n",
+      "purpose": "smallest product"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "7\n",
+      "expected": "5040\n",
+      "purpose": "many factors"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "20\n",
+      "expected": "2432902008176640000\n",
+      "purpose": "64-bit factorial"
+    }
+  ],
+  "inputOutputContract": "Input non-negative N (0..20); output N! using 64-bit arithmetic.",
+  "mistakes": [
+    {
+      "category": "initializes_factorial_to_zero",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "long long result = 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_initializes_factorial_to_zero.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_initializes_factorial_to_zero.c",
+        "CPP": "test_cases/Q10/CPP/wrong_initializes_factorial_to_zero.cpp"
+      },
+      "hint1": "Inspect the initializes factorial to zero behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `long long result = 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in initializes factorial to zero, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `long long result = 0;` with `long long result = 1;` in factorial, then retest T1–T6."
+    },
+    {
+      "category": "omits_factor_two",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "int value = 3; value <= n"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_omits_factor_two.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_omits_factor_two.c",
+        "CPP": "test_cases/Q10/CPP/wrong_omits_factor_two.cpp"
+      },
+      "hint1": "Inspect the omits factor two behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int value = 3; value <= n`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits factor two, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `int value = 3; value <= n` with `int value = 2; value <= n` in factorial, then retest T1–T6."
+    },
+    {
+      "category": "omits_last_factor",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "value < n; ++value"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_omits_last_factor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_omits_last_factor.c",
+        "CPP": "test_cases/Q10/CPP/wrong_omits_last_factor.cpp"
+      },
+      "hint1": "Inspect the omits last factor behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `value < n; ++value`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits last factor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `value < n; ++value` with `value <= n; ++value` in factorial, then retest T1–T6."
+    },
+    {
+      "category": "adds_factors_instead",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "result += value;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_adds_factors_instead.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_adds_factors_instead.c",
+        "CPP": "test_cases/Q10/CPP/wrong_adds_factors_instead.cpp"
+      },
+      "hint1": "Inspect the adds factors instead behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `result += value;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds factors instead, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `result += value;` with `result *= value;` in factorial, then retest T1–T6."
+    },
+    {
+      "category": "squares_each_factor",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "result *= value * value;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_squares_each_factor.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_squares_each_factor.c",
+        "CPP": "test_cases/Q10/CPP/wrong_squares_each_factor.cpp"
+      },
+      "hint1": "Inspect the squares each factor behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `result *= value * value;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in squares each factor, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `result *= value * value;` with `result *= value;` in factorial, then retest T1–T6."
+    },
+    {
+      "category": "returns_input_instead_of_product",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "return n;\n}\nint main(void) {"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q10/CPP/wrong_returns_input_instead_of_product.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q10/C/wrong_returns_input_instead_of_product.c",
+        "CPP": "test_cases/Q10/CPP/wrong_returns_input_instead_of_product.cpp"
+      },
+      "hint1": "Inspect the returns input instead of product behavior in factorial; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of factorial: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return n;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in returns input instead of product, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Start the factorial accumulator at one and multiply all factors from 2 through n.",
+      "hint7": "A targeted correction is to replace `return n;` with `return result;` in factorial, then retest T1–T6."
+    }
+  ]
+}

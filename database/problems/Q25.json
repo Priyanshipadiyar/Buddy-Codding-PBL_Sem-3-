@@ -1,0 +1,207 @@
+{
+  "id": "Q25",
+  "title": "Binary Search",
+  "topic": "Searching",
+  "conceptId": "binary_search",
+  "difficulty": 2,
+  "statement": "Find target in sorted array using binary search.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5 4\n1 2 3 4 5\n",
+      "expected": "3\n",
+      "purpose": "binary search target"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "4 9\n1 3 5 7\n",
+      "expected": "-1\n",
+      "purpose": "target absent"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "1 8\n8\n",
+      "expected": "0\n",
+      "purpose": "single match"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "6 11\n2 4 6 8 10 11\n",
+      "expected": "5\n",
+      "purpose": "rightmost target"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "6 -8\n-8 -4 0 2 9 10\n",
+      "expected": "0\n",
+      "purpose": "leftmost negative"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "5 3\n1 2 3 4 5\n",
+      "expected": "2\n",
+      "purpose": "middle target"
+    }
+  ],
+  "inputOutputContract": "Input n target, followed by sorted n integers with unique values. Output 0-based index or -1.",
+  "mistakes": [
+    {
+      "category": "excludes_last_candidate",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "while (left < right)"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_excludes_last_candidate.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_excludes_last_candidate.c",
+        "CPP": "test_cases/Q25/CPP/wrong_excludes_last_candidate.cpp"
+      },
+      "hint1": "Inspect the excludes last candidate behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `while (left < right)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in excludes last candidate, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `while (left < right)` with `while (left <= right)` in binarySearch, then retest T1–T6."
+    },
+    {
+      "category": "left_pointer_does_not_advance",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "if (arr[mid] < target) left = mid;"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_left_pointer_does_not_advance.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_left_pointer_does_not_advance.c",
+        "CPP": "test_cases/Q25/CPP/wrong_left_pointer_does_not_advance.cpp"
+      },
+      "hint1": "Inspect the left pointer does not advance behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `left = mid;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in left pointer does not advance, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `left = mid;` with `left = mid + 1;` in binarySearch, then retest T1–T6."
+    },
+    {
+      "category": "right_pointer_moves_wrong_direction",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "right = mid + 1;"
+        ],
+        "failsAnyOf": [
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_right_pointer_moves_wrong_direction.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_right_pointer_moves_wrong_direction.c",
+        "CPP": "test_cases/Q25/CPP/wrong_right_pointer_moves_wrong_direction.cpp"
+      },
+      "hint1": "Inspect the right pointer moves wrong direction behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T5 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `right = mid + 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T5. The mistake is in right pointer moves wrong direction, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `right = mid + 1;` with `right = mid - 1;` in binarySearch, then retest T1–T6."
+    },
+    {
+      "category": "returns_one_based_index",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "return mid + 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_returns_one_based_index.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_returns_one_based_index.c",
+        "CPP": "test_cases/Q25/CPP/wrong_returns_one_based_index.cpp"
+      },
+      "hint1": "Inspect the returns one based index behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return mid + 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in returns one based index, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `return mid + 1;` with `return mid;` in binarySearch, then retest T1–T6."
+    },
+    {
+      "category": "wrong_not_found_sentinel",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "}\n    return 0;\n}"
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_wrong_not_found_sentinel.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_wrong_not_found_sentinel.c",
+        "CPP": "test_cases/Q25/CPP/wrong_wrong_not_found_sentinel.cpp"
+      },
+      "hint1": "Inspect the wrong not found sentinel behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in wrong not found sentinel, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `return 0;` with `return -1;` in binarySearch, then retest T1–T6."
+    },
+    {
+      "category": "reversed_binary_search_comparison",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "if (arr[mid] > target)"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q25/CPP/wrong_reversed_binary_search_comparison.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q25/C/wrong_reversed_binary_search_comparison.c",
+        "CPP": "test_cases/Q25/CPP/wrong_reversed_binary_search_comparison.cpp"
+      },
+      "hint1": "Inspect the reversed binary search comparison behavior in binarySearch; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of binarySearch: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (arr[mid] > target)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in reversed binary search comparison, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Maintain inclusive left/right boundaries, update past mid, and return the actual 0-based index.",
+      "hint7": "A targeted correction is to replace `if (arr[mid] > target)` with `if (arr[mid] < target)` in binarySearch, then retest T1–T6."
+    }
+  ]
+}

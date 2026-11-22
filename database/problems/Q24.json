@@ -1,0 +1,211 @@
+{
+  "id": "Q24",
+  "title": "Leap Year",
+  "topic": "Conditionals",
+  "conceptId": "leap_year",
+  "difficulty": 1,
+  "statement": "Check if a given year is a leap year.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "2020\n",
+      "expected": "yes\n",
+      "purpose": "leap year"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "2000\n",
+      "expected": "yes\n",
+      "purpose": "divisible by 400"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "1900\n",
+      "expected": "no\n",
+      "purpose": "century not divisible by 400"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "2024\n",
+      "expected": "yes\n",
+      "purpose": "ordinary leap"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "2023\n",
+      "expected": "no\n",
+      "purpose": "ordinary non-leap"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "2100\n",
+      "expected": "no\n",
+      "purpose": "century exception"
+    }
+  ],
+  "inputOutputContract": "Use Gregorian leap-year rule (400 divisible or 4 divisible but not 100); output exactly yes or no.",
+  "mistakes": [
+    {
+      "category": "uses_divisibility_by_four_only",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "return year % 4 == 0;"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_uses_divisibility_by_four_only.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_uses_divisibility_by_four_only.c",
+        "CPP": "test_cases/Q24/CPP/wrong_uses_divisibility_by_four_only.cpp"
+      },
+      "hint1": "Inspect the uses divisibility by four only behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return year % 4 == 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in uses divisibility by four only, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `return year % 4 == 0;` with `return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);` in isLeapYear, then retest T1–T6."
+    },
+    {
+      "category": "rejects_years_divisible_by_400",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "return year % 4 == 0 && year % 100 != 0;"
+        ],
+        "failsAnyOf": [
+          "T2"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_rejects_years_divisible_by_400.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_rejects_years_divisible_by_400.c",
+        "CPP": "test_cases/Q24/CPP/wrong_rejects_years_divisible_by_400.cpp"
+      },
+      "hint1": "Inspect the rejects years divisible by 400 behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return year % 4 == 0 && year % 100 != 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in rejects years divisible by 400, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `return year % 4 == 0 && year % 100 != 0;` with `return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);` in isLeapYear, then retest T1–T6."
+    },
+    {
+      "category": "accepts_all_century_years",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "year % 100 == 0"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_accepts_all_century_years.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_accepts_all_century_years.c",
+        "CPP": "test_cases/Q24/CPP/wrong_accepts_all_century_years.cpp"
+      },
+      "hint1": "Inspect the accepts all century years behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `year % 100 == 0`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in accepts all century years, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `year % 100 == 0` with `year % 400 == 0` in isLeapYear, then retest T1–T6."
+    },
+    {
+      "category": "inverts_leap_year_result",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "return !((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0));"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_inverts_leap_year_result.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_inverts_leap_year_result.c",
+        "CPP": "test_cases/Q24/CPP/wrong_inverts_leap_year_result.cpp"
+      },
+      "hint1": "Inspect the inverts leap year result behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return !((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0));`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in inverts leap year result, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `return !((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0));` with `return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);` in isLeapYear, then retest T1–T6."
+    },
+    {
+      "category": "treats_400_as_not_leap",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "year % 400 != 0"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_treats_400_as_not_leap.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_treats_400_as_not_leap.c",
+        "CPP": "test_cases/Q24/CPP/wrong_treats_400_as_not_leap.cpp"
+      },
+      "hint1": "Inspect the treats 400 as not leap behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `year % 400 != 0`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in treats 400 as not leap, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `year % 400 != 0` with `year % 400 == 0` in isLeapYear, then retest T1–T6."
+    },
+    {
+      "category": "uses_or_instead_of_and",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "year % 4 == 0 || year % 100 != 0"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q24/CPP/wrong_uses_or_instead_of_and.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q24/C/wrong_uses_or_instead_of_and.c",
+        "CPP": "test_cases/Q24/CPP/wrong_uses_or_instead_of_and.cpp"
+      },
+      "hint1": "Inspect the uses or instead of and behavior in isLeapYear; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of isLeapYear: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `year % 4 == 0 || year % 100 != 0`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in uses or instead of and, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: A leap year is divisible by 400, or divisible by 4 but not 100.",
+      "hint7": "A targeted correction is to replace `year % 4 == 0 || year % 100 != 0` with `year % 4 == 0 && year % 100 != 0` in isLeapYear, then retest T1–T6."
+    }
+  ]
+}

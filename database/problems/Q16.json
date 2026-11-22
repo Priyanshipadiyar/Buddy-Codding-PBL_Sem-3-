@@ -1,0 +1,209 @@
+{
+  "id": "Q16",
+  "title": "Count Vowels and Consonants",
+  "topic": "Strings",
+  "conceptId": "count_vowels_and_consonants",
+  "difficulty": 1,
+  "statement": "Count the number of vowels in a string.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "hello\n",
+      "expected": "2\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "aeiou\n",
+      "expected": "5\n",
+      "purpose": "all vowels"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "bcdfg\n",
+      "expected": "0\n",
+      "purpose": "no vowels"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "AEIOU\n",
+      "expected": "5\n",
+      "purpose": "uppercase vowels"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "programming\n",
+      "expected": "3\n",
+      "purpose": "mixed consonants vowels"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "y\n",
+      "expected": "0\n",
+      "purpose": "letter y"
+    }
+  ],
+  "inputOutputContract": "Count both uppercase and lowercase English vowels (a,e,i,o,u) in one word.",
+  "mistakes": [
+    {
+      "category": "omits_vowel_u",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o';"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_omits_vowel_u.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_omits_vowel_u.c",
+        "CPP": "test_cases/Q16/CPP/wrong_omits_vowel_u.cpp"
+      },
+      "hint1": "Inspect the omits vowel u behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in omits vowel u, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `;` with `|| ch == 'u';` in countVowels / isVowel, then retest T1–T6."
+    },
+    {
+      "category": "ignores_uppercase_vowels",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "int isVowel(char ch) {\n    ch = ch;"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_ignores_uppercase_vowels.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_ignores_uppercase_vowels.c",
+        "CPP": "test_cases/Q16/CPP/wrong_ignores_uppercase_vowels.cpp"
+      },
+      "hint1": "Inspect the ignores uppercase vowels behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `ch = ch;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in ignores uppercase vowels, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `ch = ch;` with `ch = (char)tolower((unsigned char)ch);` in countVowels / isVowel, then retest T1–T6."
+    },
+    {
+      "category": "uses_and_for_vowel_test",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "ch == 'a' && ch == 'e'"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_uses_and_for_vowel_test.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_uses_and_for_vowel_test.c",
+        "CPP": "test_cases/Q16/CPP/wrong_uses_and_for_vowel_test.cpp"
+      },
+      "hint1": "Inspect the uses and for vowel test behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `ch == 'a' && ch == 'e'`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses and for vowel test, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `ch == 'a' && ch == 'e'` with `ch == 'a' || ch == 'e'` in countVowels / isVowel, then retest T1–T6."
+    },
+    {
+      "category": "skips_first_character",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "int i = 1; text[i]"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_skips_first_character.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_skips_first_character.c",
+        "CPP": "test_cases/Q16/CPP/wrong_skips_first_character.cpp"
+      },
+      "hint1": "Inspect the skips first character behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int i = 1; text[i]`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in skips first character, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `int i = 1; text[i]` with `int i = 0; text[i]` in countVowels / isVowel, then retest T1–T6."
+    },
+    {
+      "category": "counts_all_characters_as_vowels",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "if (1) ++count;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_counts_all_characters_as_vowels.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_counts_all_characters_as_vowels.c",
+        "CPP": "test_cases/Q16/CPP/wrong_counts_all_characters_as_vowels.cpp"
+      },
+      "hint1": "Inspect the counts all characters as vowels behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (1) ++count;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in counts all characters as vowels, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `if (1) ++count;` with `if (isVowel(text[i])) ++count;` in countVowels / isVowel, then retest T1–T6."
+    },
+    {
+      "category": "omits_last_character",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "text[i] != '\\0' && text[i + 1] != '\\0'; ++i"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q16/CPP/wrong_omits_last_character.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q16/C/wrong_omits_last_character.c",
+        "CPP": "test_cases/Q16/CPP/wrong_omits_last_character.cpp"
+      },
+      "hint1": "Inspect the omits last character behavior in countVowels / isVowel; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of countVowels / isVowel: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `text[i] != '\\0' && text[i + 1] != '\\0'; ++i`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits last character, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Normalize case, recognize a/e/i/o/u, and examine every character once.",
+      "hint7": "A targeted correction is to replace `text[i] != '\\0' && text[i + 1] != '\\0'; ++i` with `text[i] != '\\0'; ++i` in countVowels / isVowel, then retest T1–T6."
+    }
+  ]
+}

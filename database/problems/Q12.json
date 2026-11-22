@@ -1,0 +1,218 @@
+{
+  "id": "Q12",
+  "title": "Sum of Digits",
+  "topic": "Math",
+  "conceptId": "sum_of_digits",
+  "difficulty": 1,
+  "statement": "Find the sum of digits of a number.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "123\n",
+      "expected": "6\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "0\n",
+      "expected": "0\n",
+      "purpose": "zero"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "-504\n",
+      "expected": "9\n",
+      "purpose": "negative number"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "1020\n",
+      "expected": "3\n",
+      "purpose": "embedded zeros"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "9999\n",
+      "expected": "36\n",
+      "purpose": "repeated digits"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "8\n",
+      "expected": "8\n",
+      "purpose": "one digit"
+    }
+  ],
+  "inputOutputContract": "Input signed integer; sum decimal digits of its absolute value; zero has digit sum zero.",
+  "mistakes": [
+    {
+      "category": "ignores_negative_numbers",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "if (number < 0) return 0;"
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_ignores_negative_numbers.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_ignores_negative_numbers.c",
+        "CPP": "test_cases/Q12/CPP/wrong_ignores_negative_numbers.cpp"
+      },
+      "hint1": "Inspect the ignores negative numbers behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (number < 0) return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in ignores negative numbers, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `if (number < 0) return 0;` with `if (number < 0) number = -number;` in sumDigits, then retest T1–T6."
+    },
+    {
+      "category": "stops_before_last_digit",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "while (number > 9)"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_stops_before_last_digit.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_stops_before_last_digit.c",
+        "CPP": "test_cases/Q12/CPP/wrong_stops_before_last_digit.cpp"
+      },
+      "hint1": "Inspect the stops before last digit behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `while (number > 9)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in stops before last digit, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `while (number > 9)` with `while (number > 0)` in sumDigits, then retest T1–T6."
+    },
+    {
+      "category": "adds_quotients_not_digits",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "sum += (int)(number / 10);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_adds_quotients_not_digits.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_adds_quotients_not_digits.c",
+        "CPP": "test_cases/Q12/CPP/wrong_adds_quotients_not_digits.cpp"
+      },
+      "hint1": "Inspect the adds quotients not digits behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `sum += (int)(number / 10);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds quotients not digits, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `sum += (int)(number / 10);` with `sum += (int)(number % 10);` in sumDigits, then retest T1–T6."
+    },
+    {
+      "category": "uses_wrong_digit_base",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "sum += (int)(number % 9);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_uses_wrong_digit_base.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_uses_wrong_digit_base.c",
+        "CPP": "test_cases/Q12/CPP/wrong_uses_wrong_digit_base.cpp"
+      },
+      "hint1": "Inspect the uses wrong digit base behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `sum += (int)(number % 9);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses wrong digit base, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `sum += (int)(number % 9);` with `sum += (int)(number % 10);` in sumDigits, then retest T1–T6."
+    },
+    {
+      "category": "double_counts_each_digit",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "sum += 2 * (int)(number % 10);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_double_counts_each_digit.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_double_counts_each_digit.c",
+        "CPP": "test_cases/Q12/CPP/wrong_double_counts_each_digit.cpp"
+      },
+      "hint1": "Inspect the double counts each digit behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `sum += 2 * (int)(number % 10);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in double counts each digit, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `sum += 2 * (int)(number % 10);` with `sum += (int)(number % 10);` in sumDigits, then retest T1–T6."
+    },
+    {
+      "category": "returns_zero_instead_of_sum",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "return 0;\n}\nint main(void) {"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q12/CPP/wrong_returns_zero_instead_of_sum.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q12/C/wrong_returns_zero_instead_of_sum.c",
+        "CPP": "test_cases/Q12/CPP/wrong_returns_zero_instead_of_sum.cpp"
+      },
+      "hint1": "Inspect the returns zero instead of sum behavior in sumDigits; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of sumDigits: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in returns zero instead of sum, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Take the absolute input, add the base-10 remainder and discard one digit each iteration.",
+      "hint7": "A targeted correction is to replace `return 0;` with `return sum;` in sumDigits, then retest T1–T6."
+    }
+  ]
+}

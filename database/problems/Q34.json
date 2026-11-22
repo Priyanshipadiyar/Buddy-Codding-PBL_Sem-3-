@@ -1,0 +1,212 @@
+{
+  "id": "Q34",
+  "title": "Quick Sort Partition",
+  "topic": "Sorting",
+  "conceptId": "quick_sort_partition",
+  "difficulty": 2,
+  "statement": "Partition an array around a pivot element.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "5\n3 8 2 5 1\n",
+      "expected": "1 8 2 5 3\n",
+      "purpose": "last-element Lomuto partition"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "3\n2 1 3\n",
+      "expected": "2 1 3\n",
+      "purpose": "largest pivot"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "3\n4 1 0\n",
+      "expected": "0 1 4\n",
+      "purpose": "smallest pivot"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "4\n3 3 3 3\n",
+      "expected": "3 3 3 3\n",
+      "purpose": "equal to pivot"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "5\n6 2 8 4 5\n",
+      "expected": "2 4 5 6 8\n",
+      "purpose": "mixed partition"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "1\n7\n",
+      "expected": "7\n",
+      "purpose": "single element"
+    }
+  ],
+  "inputOutputContract": "Partition using the last value as pivot and the Lomuto algorithm (scan j=0..n-2; swap when a[j]<=pivot; place pivot at i+1). Output the EXACT resulting array, not fully sorted.",
+  "mistakes": [
+    {
+      "category": "uses_first_element_as_pivot",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "int pivot = arr[0]"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_uses_first_element_as_pivot.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_uses_first_element_as_pivot.c",
+        "CPP": "test_cases/Q34/CPP/wrong_uses_first_element_as_pivot.cpp"
+      },
+      "hint1": "Inspect the uses first element as pivot behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int pivot = arr[0]`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses first element as pivot, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `int pivot = arr[0]` with `int pivot = arr[n - 1]` in partition, then retest T1–T6."
+    },
+    {
+      "category": "reverses_partition_comparison",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "if (arr[j] > pivot)"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_reverses_partition_comparison.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_reverses_partition_comparison.c",
+        "CPP": "test_cases/Q34/CPP/wrong_reverses_partition_comparison.cpp"
+      },
+      "hint1": "Inspect the reverses partition comparison behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (arr[j] > pivot)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in reverses partition comparison, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `if (arr[j] > pivot)` with `if (arr[j] <= pivot)` in partition, then retest T1–T6."
+    },
+    {
+      "category": "starts_partition_pointer_at_zero",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "int pivot = arr[n - 1], left = 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_starts_partition_pointer_at_zero.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_starts_partition_pointer_at_zero.c",
+        "CPP": "test_cases/Q34/CPP/wrong_starts_partition_pointer_at_zero.cpp"
+      },
+      "hint1": "Inspect the starts partition pointer at zero behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int pivot = arr[n - 1], left = 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in starts partition pointer at zero, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `int pivot = arr[n - 1], left = 0;` with `int pivot = arr[n - 1], left = -1;` in partition, then retest T1–T6."
+    },
+    {
+      "category": "skips_penultimate_element",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "for (int j = 0; j < n - 2; ++j) {"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_skips_penultimate_element.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_skips_penultimate_element.c",
+        "CPP": "test_cases/Q34/CPP/wrong_skips_penultimate_element.cpp"
+      },
+      "hint1": "Inspect the skips penultimate element behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `j < n - 2; ++j`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in skips penultimate element, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `j < n - 2; ++j` with `j < n - 1; ++j` in partition, then retest T1–T6."
+    },
+    {
+      "category": "uses_wrong_pivot_slot",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "int pivot = arr[n - 2]"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_uses_wrong_pivot_slot.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_uses_wrong_pivot_slot.c",
+        "CPP": "test_cases/Q34/CPP/wrong_uses_wrong_pivot_slot.cpp"
+      },
+      "hint1": "Inspect the uses wrong pivot slot behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int pivot = arr[n - 2]`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses wrong pivot slot, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `int pivot = arr[n - 2]` with `int pivot = arr[n - 1]` in partition, then retest T1–T6."
+    },
+    {
+      "category": "duplicates_swapped_element",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "arr[j] = arr[left];"
+        ],
+        "failsAnyOf": [
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q34/CPP/wrong_duplicates_swapped_element.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q34/C/wrong_duplicates_swapped_element.c",
+        "CPP": "test_cases/Q34/CPP/wrong_duplicates_swapped_element.cpp"
+      },
+      "hint1": "Inspect the duplicates swapped element behavior in partition; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T5 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of partition: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `arr[j] = arr[left];`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T5. The mistake is in duplicates swapped element, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Lomuto partition uses the last element as pivot, inclusive <= comparison, and a final pivot swap.",
+      "hint7": "A targeted correction is to replace `arr[j] = arr[left];` with `arr[j] = temp;` in partition, then retest T1–T6."
+    }
+  ]
+}
