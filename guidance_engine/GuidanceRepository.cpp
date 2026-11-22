@@ -24,6 +24,9 @@ GuidanceData GuidanceRepository::getGuidanceForMistake(const std::string& proble
                     data.hint2 = m.value("hint2", "");
                     data.hint3 = m.value("hint3", "");
                     data.hint4 = m.value("hint4", "");
+                    data.hint5 = m.value("hint5", "");
+                    data.hint6 = m.value("hint6", "");
+                    data.hint7 = m.value("hint7", "");
                     break;
                 }
             }
