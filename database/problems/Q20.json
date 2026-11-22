@@ -1,0 +1,228 @@
+{
+  "id": "Q20",
+  "title": "Print Pattern (Pyramid)",
+  "topic": "Loops",
+  "conceptId": "print_pattern_(pyramid)",
+  "difficulty": 1,
+  "statement": "Print a star pyramid of height N.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "3\n",
+      "expected": "  *\n ***\n*****\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "1\n",
+      "expected": "*\n",
+      "purpose": "smallest pyramid"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "2\n",
+      "expected": " *\n***\n",
+      "purpose": "two rows"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "4\n",
+      "expected": "   *\n  ***\n *****\n*******\n",
+      "purpose": "four rows"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "5\n",
+      "expected": "    *\n   ***\n  *****\n *******\n*********\n",
+      "purpose": "five rows"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "6\n",
+      "expected": "     *\n    ***\n   *****\n  *******\n *********\n***********\n",
+      "purpose": "six rows"
+    }
+  ],
+  "inputOutputContract": "Print N centered pyramid rows; leading spaces = N-row, stars = 2*row-1. No trailing spaces.",
+  "mistakes": [
+    {
+      "category": "prints_even_star_counts",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "for (int star = 0; star < 2 * row; ++star) putchar('*');"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_prints_even_star_counts.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_prints_even_star_counts.c",
+        "CPP": "test_cases/Q20/CPP/wrong_prints_even_star_counts.cpp"
+      },
+      "hint1": "Inspect the prints even star counts behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `star < 2 * row`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in prints even star counts, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `star < 2 * row` with `star < 2 * row - 1` in printPyramid, then retest T1–T6."
+    },
+    {
+      "category": "adds_extra_left_padding",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "space < height - row + 1"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_adds_extra_left_padding.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_adds_extra_left_padding.c",
+        "CPP": "test_cases/Q20/CPP/wrong_adds_extra_left_padding.cpp"
+      },
+      "hint1": "Inspect the adds extra left padding behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `space < height - row + 1`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds extra left padding, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `space < height - row + 1` with `space < height - row` in printPyramid, then retest T1–T6."
+    },
+    {
+      "category": "omits_last_row",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "row < height; ++row"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_omits_last_row.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_omits_last_row.c",
+        "CPP": "test_cases/Q20/CPP/wrong_omits_last_row.cpp"
+      },
+      "hint1": "Inspect the omits last row behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `row < height; ++row`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in omits last row, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `row < height; ++row` with `row <= height; ++row` in printPyramid, then retest T1–T6."
+    },
+    {
+      "category": "prints_only_row_stars",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "for (int star = 0; star < row; ++star) putchar('*');"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_prints_only_row_stars.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_prints_only_row_stars.c",
+        "CPP": "test_cases/Q20/CPP/wrong_prints_only_row_stars.cpp"
+      },
+      "hint1": "Inspect the prints only row stars behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `star < row`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in prints only row stars, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `star < row` with `star < 2 * row - 1` in printPyramid, then retest T1–T6."
+    },
+    {
+      "category": "reverses_space_formula",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "for (int space = 0; space < row; ++space) putchar(' ');"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_reverses_space_formula.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_reverses_space_formula.c",
+        "CPP": "test_cases/Q20/CPP/wrong_reverses_space_formula.cpp"
+      },
+      "hint1": "Inspect the reverses space formula behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `space < row`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in reverses space formula, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `space < row` with `space < height - row` in printPyramid, then retest T1–T6."
+    },
+    {
+      "category": "adds_trailing_space",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "putchar(' '); putchar('\\n');"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q20/CPP/wrong_adds_trailing_space.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q20/C/wrong_adds_trailing_space.c",
+        "CPP": "test_cases/Q20/CPP/wrong_adds_trailing_space.cpp"
+      },
+      "hint1": "Inspect the adds trailing space behavior in printPyramid; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of printPyramid: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `putchar(' '); putchar('\\n');`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds trailing space, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Row r needs height-r spaces, followed by 2*r-1 stars and a newline.",
+      "hint7": "A targeted correction is to replace `putchar(' '); putchar('\\n');` with `putchar('\\n');` in printPyramid, then retest T1–T6."
+    }
+  ]
+}

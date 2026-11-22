@@ -31,7 +31,9 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
-          ""
+          "return 0;",
+          "return n;",
+          "return nums.size();"
         ],
         "failsAnyOf": [
           "T1"
@@ -48,7 +50,10 @@
       "priority": 2,
       "detect": {
         "anyPattern": [
-          "++"
+          "count++",
+          "k++",
+          "write_index++",
+          "j++"
         ],
         "failsAnyOf": [
           "T1"
@@ -65,7 +70,9 @@
       "priority": 3,
       "detect": {
         "anyPattern": [
-          "while"
+          "while (i < n)",
+          "while (j < n)",
+          "while (1)"
         ],
         "failsAnyOf": [
           "T1"
@@ -82,7 +89,8 @@
       "priority": 4,
       "detect": {
         "anyPattern": [
-          ""
+          "nums[0] == val",
+          "arr[0] == val"
         ],
         "failsAnyOf": [
           "T1"
@@ -99,7 +107,8 @@
       "priority": 5,
       "detect": {
         "anyPattern": [
-          ""
+          "nums[i] = 0;",
+          "arr[i] = -1;"
         ],
         "failsAnyOf": [
           "T3"
@@ -116,7 +125,8 @@
       "priority": 6,
       "detect": {
         "anyPattern": [
-          ""
+          "return 1;",
+          "return n;"
         ],
         "failsAnyOf": [
           "T2"
@@ -133,7 +143,9 @@
       "priority": 7,
       "detect": {
         "anyPattern": [
-          "=="
+          "nums[i] == val",
+          "arr[i] == val",
+          "nums[j] == val"
         ],
         "failsAnyOf": [
           "T1"

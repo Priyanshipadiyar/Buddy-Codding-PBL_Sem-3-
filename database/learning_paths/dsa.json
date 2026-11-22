@@ -1,0 +1,15 @@
+{
+  "id": "DSA_FOUNDATIONS",
+  "title": "Data Structures and Algorithms",
+  "description": "A progressive path from arrays and strings to graphs and dynamic programming.",
+  "modules": [
+    {"id":"arrays_strings","title":"Arrays and Strings","topics":["Traversal","Searching","Sorting","Two Pointers","Sliding Window"]},
+    {"id":"linked_lists","title":"Linked Lists","topics":["Singly Linked List","Doubly Linked List","Reversal","Cycle Detection","Intersection"]},
+    {"id":"stacks_queues","title":"Stacks and Queues","topics":["Stack Operations","Queue Operations","Circular Queue","Monotonic Stack"]},
+    {"id":"recursion","title":"Recursion and Backtracking","topics":["Base Cases","Recursive Calls","Subsets","Permutations"]},
+    {"id":"trees","title":"Trees and Binary Search Trees","topics":["Traversals","Height","Insertion","Deletion","Searching"]},
+    {"id":"hashing_heaps","title":"Hashing and Heaps","topics":["Frequency Maps","Hash Tables","Priority Queues"]},
+    {"id":"graphs","title":"Graphs","topics":["BFS","DFS","Connected Components","Shortest Paths"]},
+    {"id":"dynamic_programming","title":"Dynamic Programming","topics":["Memoization","Tabulation","Knapsack","Sequence DP"]}
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "id": "Q32",
+  "title": "Max Depth of Binary Tree",
+  "topic": "Trees",
+  "conceptId": "max_depth_of_binary_tree",
+  "difficulty": 2,
+  "statement": "Find the maximum depth/height of a binary tree.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "7\n1 2 3 -1 -1 4 5\n",
+      "expected": "3\n",
+      "purpose": "three levels tree"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "1\n9\n",
+      "expected": "1\n",
+      "purpose": "single node"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "3\n1 2 3\n",
+      "expected": "2\n",
+      "purpose": "full two levels"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "7\n1 2 -1 3 -1 -1 -1\n",
+      "expected": "3\n",
+      "purpose": "left-leaning depth"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "7\n1 -1 3 -1 -1 4 5\n",
+      "expected": "3\n",
+      "purpose": "right subtree"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "7\n1 2 3 4 5 6 7\n",
+      "expected": "3\n",
+      "purpose": "complete tree"
+    }
+  ],
+  "inputOutputContract": "Input n followed by n level-order tree slots using -1 for empty, with children at indices 2*i+1 and 2*i+2. Output maximum depth of non-null root.",
+  "mistakes": [
+    {
+      "category": "adds_both_subtree_depths",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "return 1 + leftDepth + rightDepth;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_adds_both_subtree_depths.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_adds_both_subtree_depths.c",
+        "CPP": "test_cases/Q32/CPP/wrong_adds_both_subtree_depths.cpp"
+      },
+      "hint1": "Inspect the adds both subtree depths behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1 + leftDepth + rightDepth;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in adds both subtree depths, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `return 1 + leftDepth + rightDepth;` with `return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);` in maxDepth / buildTree, then retest T1–T6."
+    },
+    {
+      "category": "uses_minimum_depth",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "return 1 + (leftDepth < rightDepth ? leftDepth : rightDepth);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_uses_minimum_depth.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_uses_minimum_depth.c",
+        "CPP": "test_cases/Q32/CPP/wrong_uses_minimum_depth.cpp"
+      },
+      "hint1": "Inspect the uses minimum depth behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1 + (leftDepth < rightDepth ? leftDepth : rightDepth);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses minimum depth, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `return 1 + (leftDepth < rightDepth ? leftDepth : rightDepth);` with `return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);` in maxDepth / buildTree, then retest T1–T6."
+    },
+    {
+      "category": "forgets_root_level",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "return (leftDepth > rightDepth ? leftDepth : rightDepth);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_forgets_root_level.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_forgets_root_level.c",
+        "CPP": "test_cases/Q32/CPP/wrong_forgets_root_level.cpp"
+      },
+      "hint1": "Inspect the forgets root level behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return (leftDepth > rightDepth ? leftDepth : rightDepth);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in forgets root level, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `return (leftDepth > rightDepth ? leftDepth : rightDepth);` with `return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);` in maxDepth / buildTree, then retest T1–T6."
+    },
+    {
+      "category": "ignores_right_subtree",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "return 1 + leftDepth;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_ignores_right_subtree.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_ignores_right_subtree.c",
+        "CPP": "test_cases/Q32/CPP/wrong_ignores_right_subtree.cpp"
+      },
+      "hint1": "Inspect the ignores right subtree behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1 + leftDepth;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in ignores right subtree, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `return 1 + leftDepth;` with `return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);` in maxDepth / buildTree, then retest T1–T6."
+    },
+    {
+      "category": "ignores_left_subtree",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "return 1 + rightDepth;"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_ignores_left_subtree.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_ignores_left_subtree.c",
+        "CPP": "test_cases/Q32/CPP/wrong_ignores_left_subtree.cpp"
+      },
+      "hint1": "Inspect the ignores left subtree behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1 + rightDepth;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in ignores left subtree, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `return 1 + rightDepth;` with `return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);` in maxDepth / buildTree, then retest T1–T6."
+    },
+    {
+      "category": "counts_null_nodes_as_depth",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "if (!root) return 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q32/CPP/wrong_counts_null_nodes_as_depth.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q32/C/wrong_counts_null_nodes_as_depth.c",
+        "CPP": "test_cases/Q32/CPP/wrong_counts_null_nodes_as_depth.cpp"
+      },
+      "hint1": "Inspect the counts null nodes as depth behavior in maxDepth / buildTree; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch TreeNode / root / leftDepth / rightDepth at each iteration or recursive return.",
+      "hint3": "Check the invariant of maxDepth / buildTree: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (!root) return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in counts null nodes as depth, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Build TreeNode links from level-order slots and compute one plus the maximum child depth.",
+      "hint7": "A targeted correction is to replace `if (!root) return 1;` with `if (!root) return 0;` in maxDepth / buildTree, then retest T1–T6."
+    }
+  ]
+}

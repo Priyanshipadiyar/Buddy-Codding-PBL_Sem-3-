@@ -1,0 +1,207 @@
+{
+  "id": "Q26",
+  "title": "Valid Parentheses",
+  "topic": "Stacks",
+  "conceptId": "valid_parentheses",
+  "difficulty": 2,
+  "statement": "Check if bracket sequence is valid.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "()[]{}\n",
+      "expected": "yes\n",
+      "purpose": "separate valid pairs"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "()\n",
+      "expected": "yes\n",
+      "purpose": "one pair"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "([{}])\n",
+      "expected": "yes\n",
+      "purpose": "nested"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "(]\n",
+      "expected": "no\n",
+      "purpose": "wrong bracket type"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "(()\n",
+      "expected": "no\n",
+      "purpose": "unclosed bracket"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": ")(\n",
+      "expected": "no\n",
+      "purpose": "premature closing"
+    }
+  ],
+  "inputOutputContract": "Input non-empty string of bracket characters only; output exactly yes or no.",
+  "mistakes": [
+    {
+      "category": "recognizes_only_round_opening",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "if (ch == '(') { push(&stack, ch); }",
+          "if (ch == '(') { stack.push(ch); }"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_recognizes_only_round_opening.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_recognizes_only_round_opening.c",
+        "CPP": "test_cases/Q26/CPP/wrong_recognizes_only_round_opening.cpp"
+      },
+      "hint1": "Inspect the recognizes only round opening behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `ch == '('`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in recognizes only round opening, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `ch == '('` with `ch == '(' || ch == '[' || ch == '{'` in isValid / Stack, then retest T1–T6."
+    },
+    {
+      "category": "ignores_bracket_type_mismatch",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "if (opening == 0) return 0;"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_ignores_bracket_type_mismatch.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_ignores_bracket_type_mismatch.c",
+        "CPP": "test_cases/Q26/CPP/wrong_ignores_bracket_type_mismatch.cpp"
+      },
+      "hint1": "Inspect the ignores bracket type mismatch behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (opening == 0) return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in ignores bracket type mismatch, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `if (opening == 0) return 0;` with `if (!matches(opening, ch)) return 0;` in isValid / Stack, then retest T1–T6."
+    },
+    {
+      "category": "ignores_unclosed_opening",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "}\n    return 1;\n}"
+        ],
+        "failsAnyOf": [
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_ignores_unclosed_opening.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_ignores_unclosed_opening.c",
+        "CPP": "test_cases/Q26/CPP/wrong_ignores_unclosed_opening.cpp"
+      },
+      "hint1": "Inspect the ignores unclosed opening behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T5 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T5. The mistake is in ignores unclosed opening, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `return 1;` with `return isEmpty(&stack);` in isValid / Stack, then retest T1–T6."
+    },
+    {
+      "category": "maps_round_to_square_closing",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "opening == '(' && closing == ']'"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_maps_round_to_square_closing.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_maps_round_to_square_closing.c",
+        "CPP": "test_cases/Q26/CPP/wrong_maps_round_to_square_closing.cpp"
+      },
+      "hint1": "Inspect the maps round to square closing behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `opening == '(' && closing == ']'`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in maps round to square closing, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `opening == '(' && closing == ']'` with `opening == '(' && closing == ')'` in isValid / Stack, then retest T1–T6."
+    },
+    {
+      "category": "accepts_premature_closing",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "if (isEmpty(&stack)) return 1;",
+          "if (stack.isEmpty()) return 1;"
+        ],
+        "failsAnyOf": [
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_accepts_premature_closing.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_accepts_premature_closing.c",
+        "CPP": "test_cases/Q26/CPP/wrong_accepts_premature_closing.cpp"
+      },
+      "hint1": "Inspect the accepts premature closing behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T6 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (isEmpty(&stack)) return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T6. The mistake is in accepts premature closing, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `if (isEmpty(&stack)) return 1;` with `if (isEmpty(&stack)) return 0;` in isValid / Stack, then retest T1–T6."
+    },
+    {
+      "category": "treats_close_round_as_opening",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "ch == '(' || ch == '[' || ch == '{' || ch == ')'"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q26/CPP/wrong_treats_close_round_as_opening.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q26/C/wrong_treats_close_round_as_opening.c",
+        "CPP": "test_cases/Q26/CPP/wrong_treats_close_round_as_opening.cpp"
+      },
+      "hint1": "Inspect the treats close round as opening behavior in isValid / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Stack / push / pop / peek at each iteration or recursive return.",
+      "hint3": "Check the invariant of isValid / Stack: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `ch == '(' || ch == '[' || ch == '{' || ch == ')'`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in treats close round as opening, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use Stack.push/pop and check matching bracket types and leftover opening brackets.",
+      "hint7": "A targeted correction is to replace `ch == '(' || ch == '[' || ch == '{' || ch == ')'` with `ch == '(' || ch == '[' || ch == '{'` in isValid / Stack, then retest T1–T6."
+    }
+  ]
+}

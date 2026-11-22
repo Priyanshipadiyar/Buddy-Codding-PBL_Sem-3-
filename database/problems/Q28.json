@@ -1,0 +1,209 @@
+{
+  "id": "Q28",
+  "title": "Detect Cycle in Linked List",
+  "topic": "Linked Lists",
+  "conceptId": "detect_cycle_in_linked_list",
+  "difficulty": 2,
+  "statement": "Detect if a cycle exists in the list.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "4 1\n1 2 3 4\n",
+      "expected": "yes\n",
+      "purpose": "cycle at position 1"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "3 1\n4 5 6\n",
+      "expected": "yes\n",
+      "purpose": "cycle points to middle"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "3 -1\n4 5 6\n",
+      "expected": "no\n",
+      "purpose": "no cycle"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "1 0\n7\n",
+      "expected": "yes\n",
+      "purpose": "self cycle"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "1 -1\n7\n",
+      "expected": "no\n",
+      "purpose": "single no cycle"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "5 0\n1 2 3 4 5\n",
+      "expected": "yes\n",
+      "purpose": "cycle to first"
+    }
+  ],
+  "inputOutputContract": "Input n cycle_pos then n node values; cycle_pos=-1 means no cycle, else the final node points to the node at this 0-based position. Output yes or no. Requires list-construction fixture adapter.",
+  "mistakes": [
+    {
+      "category": "fast_moves_one_node",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "fast = fast->next;"
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_fast_moves_one_node.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_fast_moves_one_node.c",
+        "CPP": "test_cases/Q28/CPP/wrong_fast_moves_one_node.cpp"
+      },
+      "hint1": "Inspect the fast moves one node behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `fast = fast->next;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in fast moves one node, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `fast = fast->next;` with `fast = fast->next->next;` in hasCycle, then retest T1–T6."
+    },
+    {
+      "category": "reports_cycle_on_acyclic_lists",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "}\n    return 1;\n}"
+        ],
+        "failsAnyOf": [
+          "T3",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_reports_cycle_on_acyclic_lists.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_reports_cycle_on_acyclic_lists.c",
+        "CPP": "test_cases/Q28/CPP/wrong_reports_cycle_on_acyclic_lists.cpp"
+      },
+      "hint1": "Inspect the reports cycle on acyclic lists behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in reports cycle on acyclic lists, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `return 1;` with `return 0;` in hasCycle, then retest T1–T6."
+    },
+    {
+      "category": "misses_self_cycle",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "if (slow == fast) return slow != head;"
+        ],
+        "failsAnyOf": [
+          "T4",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_misses_self_cycle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_misses_self_cycle.c",
+        "CPP": "test_cases/Q28/CPP/wrong_misses_self_cycle.cpp"
+      },
+      "hint1": "Inspect the misses self cycle behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (slow == fast) return slow != head;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in misses self cycle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `if (slow == fast) return slow != head;` with `if (slow == fast) return 1;` in hasCycle, then retest T1–T6."
+    },
+    {
+      "category": "always_reports_no_cycle",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "if (slow == fast) return 0;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_always_reports_no_cycle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_always_reports_no_cycle.c",
+        "CPP": "test_cases/Q28/CPP/wrong_always_reports_no_cycle.cpp"
+      },
+      "hint1": "Inspect the always reports no cycle behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (slow == fast) return 0;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in always reports no cycle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `if (slow == fast) return 0;` with `if (slow == fast) return 1;` in hasCycle, then retest T1–T6."
+    },
+    {
+      "category": "compares_against_head_instead_of_slow",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "if (head == fast)"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_compares_against_head_instead_of_slow.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_compares_against_head_instead_of_slow.c",
+        "CPP": "test_cases/Q28/CPP/wrong_compares_against_head_instead_of_slow.cpp"
+      },
+      "hint1": "Inspect the compares against head instead of slow behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `if (head == fast)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in compares against head instead of slow, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `if (head == fast)` with `if (slow == fast)` in hasCycle, then retest T1–T6."
+    },
+    {
+      "category": "fails_to_create_requested_cycle",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "if (n > 0 && cyclePos >= 0 && cyclePos < n) nodes[n - 1]->next = NULL;",
+          "if (n > 0 && cyclePos >= 0 && cyclePos < n) nodes[n - 1]->next = nullptr;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T4",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q28/CPP/wrong_fails_to_create_requested_cycle.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q28/C/wrong_fails_to_create_requested_cycle.c",
+        "CPP": "test_cases/Q28/CPP/wrong_fails_to_create_requested_cycle.cpp"
+      },
+      "hint1": "Inspect the fails to create requested cycle behavior in hasCycle; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Node / slow / fast / next at each iteration or recursive return.",
+      "hint3": "Check the invariant of hasCycle: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `nodes[n - 1]->next = NULL;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in fails to create requested cycle, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Construct the actual linked-list cycle; Floyd slow/fast detection compares Node pointers, not values.",
+      "hint7": "A targeted correction is to replace `nodes[n - 1]->next = NULL;` with `nodes[n - 1]->next = nodes[cyclePos];` in hasCycle, then retest T1–T6."
+    }
+  ]
+}

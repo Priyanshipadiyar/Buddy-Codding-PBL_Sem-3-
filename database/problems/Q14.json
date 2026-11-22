@@ -1,0 +1,213 @@
+{
+  "id": "Q14",
+  "title": "Reverse an Array",
+  "topic": "Arrays",
+  "conceptId": "reverse_an_array",
+  "difficulty": 1,
+  "statement": "Reverse the given array in-place.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "3\n1 2 3\n",
+      "expected": "3 2 1\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "0\n",
+      "expected": "\n",
+      "purpose": "empty array"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "1\n6\n",
+      "expected": "6\n",
+      "purpose": "one element"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "4\n1 2 3 4\n",
+      "expected": "4 3 2 1\n",
+      "purpose": "even size"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "6\n2 2 3 3 4 4\n",
+      "expected": "4 4 3 3 2 2\n",
+      "purpose": "duplicates"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "5\n-2 0 9 -4 8\n",
+      "expected": "8 -4 9 0 -2\n",
+      "purpose": "mixed signs"
+    }
+  ],
+  "inputOutputContract": "Input n followed by n values; output one space-separated line, blank if n=0.",
+  "mistakes": [
+    {
+      "category": "duplicates_swapped_value",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "arr[right] = arr[left];"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_duplicates_swapped_value.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_duplicates_swapped_value.c",
+        "CPP": "test_cases/Q14/CPP/wrong_duplicates_swapped_value.cpp"
+      },
+      "hint1": "Inspect the duplicates swapped value behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `arr[right] = arr[left];`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in duplicates swapped value, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `arr[right] = arr[left];` with `arr[right] = temp;` in reverseArray, then retest T1–T6."
+    },
+    {
+      "category": "stops_one_swap_too_early",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "while (left < right - 1)"
+        ],
+        "failsAnyOf": [
+          "T4"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_stops_one_swap_too_early.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_stops_one_swap_too_early.c",
+        "CPP": "test_cases/Q14/CPP/wrong_stops_one_swap_too_early.cpp"
+      },
+      "hint1": "Inspect the stops one swap too early behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `while (left < right - 1)`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in stops one swap too early, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `while (left < right - 1)` with `while (left < right)` in reverseArray, then retest T1–T6."
+    },
+    {
+      "category": "skips_first_array_element",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "int left = 1, right = n - 1;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_skips_first_array_element.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_skips_first_array_element.c",
+        "CPP": "test_cases/Q14/CPP/wrong_skips_first_array_element.cpp"
+      },
+      "hint1": "Inspect the skips first array element behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int left = 1, right = n - 1;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in skips first array element, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `int left = 1, right = n - 1;` with `int left = 0, right = n - 1;` in reverseArray, then retest T1–T6."
+    },
+    {
+      "category": "wrong_last_index",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "int left = 0, right = n - 2;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_wrong_last_index.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_wrong_last_index.c",
+        "CPP": "test_cases/Q14/CPP/wrong_wrong_last_index.cpp"
+      },
+      "hint1": "Inspect the wrong last index behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int left = 0, right = n - 2;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in wrong last index, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `int left = 0, right = n - 2;` with `int left = 0, right = n - 1;` in reverseArray, then retest T1–T6."
+    },
+    {
+      "category": "increments_left_pointer_twice",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "++left; ++left; --right;"
+        ],
+        "failsAnyOf": [
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_increments_left_pointer_twice.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_increments_left_pointer_twice.c",
+        "CPP": "test_cases/Q14/CPP/wrong_increments_left_pointer_twice.cpp"
+      },
+      "hint1": "Inspect the increments left pointer twice behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `++left; ++left; --right;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in increments left pointer twice, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `++left; ++left; --right;` with `++left; --right;` in reverseArray, then retest T1–T6."
+    },
+    {
+      "category": "never_runs_reversal",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "reverseArray(arr, 0);"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q14/CPP/wrong_never_runs_reversal.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q14/C/wrong_never_runs_reversal.c",
+        "CPP": "test_cases/Q14/CPP/wrong_never_runs_reversal.cpp"
+      },
+      "hint1": "Inspect the never runs reversal behavior in reverseArray; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch array indices / comparisons / loop boundaries / return values at each iteration or recursive return.",
+      "hint3": "Check the invariant of reverseArray: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `reverseArray(arr, 0);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in never runs reversal, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Swap the values at symmetric left and right indices until the pointers meet.",
+      "hint7": "A targeted correction is to replace `reverseArray(arr, 0);` with `reverseArray(arr, n);` in reverseArray, then retest T1–T6."
+    }
+  ]
+}

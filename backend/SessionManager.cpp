@@ -22,12 +22,18 @@ int SessionManager::advanceHint(const std::string& userId) {
     return session.hintLevel;
 }
 
-// NEW METHOD: Saves the error and resets the hint level if they make a brand new mistake
-void SessionManager::updateSessionError(const std::string& userId, const std::string& mistakeCategory) {
+// Saves the mistake and resets the hint level when it is a new mistake
+// (different category OR different problem).
+void SessionManager::updateSessionError(const std::string& userId,
+                                        const std::string& mistakeCategory,
+                                        const std::string& problemId) {
     auto& session = sessions_[userId];
-    
-    if (session.lastMistakeCategory != mistakeCategory) {
-        session.hintLevel = 0; // Start at 0 so advanceHint() makes it 1 on the first try
-        session.lastMistakeCategory = mistakeCategory;
+    std::string key = problemId + ":" + mistakeCategory;
+
+    if (session.lastMistakeKey != key) {
+        session.hintLevel = 0;  // advanceHint() will make it 1
+        session.lastMistakeKey = key;
     }
+    session.lastMistakeCategory = mistakeCategory;
+    session.currentProblemId = problemId;
 }

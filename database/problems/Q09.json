@@ -25,7 +25,8 @@
       "priority": 1,
       "detect": {
         "anyPattern": [
-          ""
+          "curr->next = prev;",
+          "head->next = prev;"
         ],
         "failsAnyOf": [
           "T1"
@@ -42,7 +43,8 @@
       "priority": 2,
       "detect": {
         "anyPattern": [
-          ""
+          "ListNode* prev = head;",
+          "ListNode* prev = new ListNode()"
         ],
         "failsAnyOf": [
           "T1"
@@ -59,7 +61,8 @@
       "priority": 3,
       "detect": {
         "anyPattern": [
-          "return head"
+          "return head;",
+          "return curr;"
         ],
         "failsAnyOf": [
           "T1"
@@ -76,7 +79,8 @@
       "priority": 4,
       "detect": {
         "anyPattern": [
-          ""
+          "prev->next = curr;",
+          "prev = curr->next;"
         ],
         "failsAnyOf": [
           "T1"
@@ -93,7 +97,7 @@
       "priority": 5,
       "detect": {
         "anyPattern": [
-          ""
+          "head->next->next"
         ],
         "failsAnyOf": [
           "T2"
@@ -110,7 +114,8 @@
       "priority": 6,
       "detect": {
         "anyPattern": [
-          ""
+          "while (curr != NULL)",
+          "while (head != NULL)"
         ],
         "failsAnyOf": [
           "T1"
@@ -127,7 +132,7 @@
       "priority": 7,
       "detect": {
         "anyPattern": [
-          ""
+          "curr = curr->next; curr->next = prev;"
         ],
         "failsAnyOf": [
           "T1"

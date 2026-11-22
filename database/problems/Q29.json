@@ -1,0 +1,211 @@
+{
+  "id": "Q29",
+  "title": "Evaluate Postfix Expression",
+  "topic": "Stacks",
+  "conceptId": "evaluate_postfix_expression",
+  "difficulty": 2,
+  "statement": "Evaluate a postfix mathematical expression.",
+  "testCases": [
+    {
+      "id": "T1",
+      "visible": true,
+      "input": "2 3 +\n",
+      "expected": "5\n",
+      "purpose": "original basic example"
+    },
+    {
+      "id": "T2",
+      "visible": true,
+      "input": "9 3 -\n",
+      "expected": "6\n",
+      "purpose": "subtraction operand order"
+    },
+    {
+      "id": "T3",
+      "visible": false,
+      "input": "8 2 /\n",
+      "expected": "4\n",
+      "purpose": "division"
+    },
+    {
+      "id": "T4",
+      "visible": false,
+      "input": "3 4 * 5 +\n",
+      "expected": "17\n",
+      "purpose": "multi-stage"
+    },
+    {
+      "id": "T5",
+      "visible": false,
+      "input": "5 1 2 + 4 * + 3 -\n",
+      "expected": "14\n",
+      "purpose": "nested postfix expression"
+    },
+    {
+      "id": "T6",
+      "visible": false,
+      "input": "-7 2 +\n",
+      "expected": "-5\n",
+      "purpose": "negative operand"
+    }
+  ],
+  "inputOutputContract": "Whitespace-delimited signed integer tokens and binary + - * / operators; division truncates toward zero; input is valid with no zero division.",
+  "mistakes": [
+    {
+      "category": "reverses_subtraction_operands",
+      "priority": 1,
+      "detect": {
+        "anyPattern": [
+          "return second - first;"
+        ],
+        "failsAnyOf": [
+          "T2",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_reverses_subtraction_operands.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_reverses_subtraction_operands.c",
+        "CPP": "test_cases/Q29/CPP/wrong_reverses_subtraction_operands.cpp"
+      },
+      "hint1": "Inspect the reverses subtraction operands behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T2 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return second - first;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T2. The mistake is in reverses subtraction operands, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `return second - first;` with `return first - second;` in evaluatePostfix / Stack, then retest T1–T6."
+    },
+    {
+      "category": "reverses_division_operands",
+      "priority": 2,
+      "detect": {
+        "anyPattern": [
+          "return second / first;"
+        ],
+        "failsAnyOf": [
+          "T3"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_reverses_division_operands.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_reverses_division_operands.c",
+        "CPP": "test_cases/Q29/CPP/wrong_reverses_division_operands.cpp"
+      },
+      "hint1": "Inspect the reverses division operands behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T3 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return second / first;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T3. The mistake is in reverses division operands, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `return second / first;` with `return first / second;` in evaluatePostfix / Stack, then retest T1–T6."
+    },
+    {
+      "category": "adds_instead_of_multiplying",
+      "priority": 3,
+      "detect": {
+        "anyPattern": [
+          "if (op == '*') return first + second;"
+        ],
+        "failsAnyOf": [
+          "T4",
+          "T5"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_adds_instead_of_multiplying.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_adds_instead_of_multiplying.c",
+        "CPP": "test_cases/Q29/CPP/wrong_adds_instead_of_multiplying.cpp"
+      },
+      "hint1": "Inspect the adds instead of multiplying behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T4 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return first + second;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T4. The mistake is in adds instead of multiplying, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `return first + second;` with `return first * second;` in evaluatePostfix / Stack, then retest T1–T6."
+    },
+    {
+      "category": "multiplies_instead_of_adding",
+      "priority": 4,
+      "detect": {
+        "anyPattern": [
+          "if (op == '+') return first * second;"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_multiplies_instead_of_adding.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_multiplies_instead_of_adding.c",
+        "CPP": "test_cases/Q29/CPP/wrong_multiplies_instead_of_adding.cpp"
+      },
+      "hint1": "Inspect the multiplies instead of adding behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `return first * second;`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in multiplies instead of adding, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `return first * second;` with `return first + second;` in evaluatePostfix / Stack, then retest T1–T6."
+    },
+    {
+      "category": "uses_peek_instead_of_pop",
+      "priority": 5,
+      "detect": {
+        "anyPattern": [
+          "int second = peek(&stack);",
+          "int second = stack.peek();"
+        ],
+        "failsAnyOf": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_uses_peek_instead_of_pop.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_uses_peek_instead_of_pop.c",
+        "CPP": "test_cases/Q29/CPP/wrong_uses_peek_instead_of_pop.cpp"
+      },
+      "hint1": "Inspect the uses peek instead of pop behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T1 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `int second = peek(&stack);`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T1. The mistake is in uses peek instead of pop, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `int second = peek(&stack);` with `int second = pop(&stack);` in evaluatePostfix / Stack, then retest T1–T6."
+    },
+    {
+      "category": "ignores_negative_literals",
+      "priority": 6,
+      "detect": {
+        "anyPattern": [
+          "push(&stack, token[0] == '-' ? 0 : atoi(token));",
+          "stack.push(token[0] == '-' ? 0 : atoi(token));"
+        ],
+        "failsAnyOf": [
+          "T6"
+        ]
+      },
+      "wrongExample": "test_cases/Q29/CPP/wrong_ignores_negative_literals.cpp",
+      "wrongExamples": {
+        "C": "test_cases/Q29/C/wrong_ignores_negative_literals.c",
+        "CPP": "test_cases/Q29/CPP/wrong_ignores_negative_literals.cpp"
+      },
+      "hint1": "Inspect the ignores negative literals behavior in evaluatePostfix / Stack; the current algorithm is close, but one operation changes its result.",
+      "hint2": "Start by tracing T6 manually. Watch Stack / push / pop / operands at each iteration or recursive return.",
+      "hint3": "Check the invariant of evaluatePostfix / Stack: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint4": "Concentrate on the expression or branch that controls this mistake: `push(&stack, token[0] == '-' ? 0 : atoi(token));`. What does it do on the failing input?",
+      "hint5": "Compare the intermediate state with the expected output of T6. The mistake is in ignores negative literals, not merely formatting.",
+      "hint6": "Adjust the faulty operation so that it follows this rule: Use a Stack to pop the second operand first and then the first operand before applying an operator.",
+      "hint7": "A targeted correction is to replace `push(&stack, token[0] == '-' ? 0 : atoi(token));` with `push(&stack, atoi(token));` in evaluatePostfix / Stack, then retest T1–T6."
+    }
+  ]
+}
