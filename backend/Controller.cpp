@@ -220,7 +220,21 @@ SubmissionResult Controller::submitCode(
         if (currentHintLevel <= 1)      result.progressiveHint = allHints.hint1;
         else if (currentHintLevel == 2) result.progressiveHint = allHints.hint2;
         else if (currentHintLevel == 3) result.progressiveHint = allHints.hint3;
-        else                            result.progressiveHint = allHints.hint4;
+        else if (currentHintLevel == 4) result.progressiveHint = allHints.hint4;
+        else if (currentHintLevel == 5) result.progressiveHint = allHints.hint5;
+        else if (currentHintLevel == 6) result.progressiveHint = allHints.hint6;
+        else                            result.progressiveHint = allHints.hint7;
+        
+        if (result.progressiveHint.empty()) {
+            GuidanceData fallback = GuidanceRepository::getGuidanceForMistake(problemId, "unclassified_error");
+            if (currentHintLevel <= 1)      result.progressiveHint = fallback.hint1;
+            else if (currentHintLevel == 2) result.progressiveHint = fallback.hint2;
+            else if (currentHintLevel == 3) result.progressiveHint = fallback.hint3;
+            else if (currentHintLevel == 4) result.progressiveHint = fallback.hint4;
+            else if (currentHintLevel == 5) result.progressiveHint = fallback.hint5;
+            else if (currentHintLevel == 6) result.progressiveHint = fallback.hint6;
+            else                            result.progressiveHint = fallback.hint7;
+        }
 
         if (result.progressiveHint.empty()) {
             result.progressiveHint =
@@ -265,8 +279,11 @@ std::string Controller::getNextHint(
     if (newLevel <= 1)      hint = allHints.hint1;
     else if (newLevel == 2) hint = allHints.hint2;
     else if (newLevel == 3) hint = allHints.hint3;
-    else                    hint = allHints.hint4;
-
+    else if (nextLevel == 4) return allHints.hint4;
+    else if (nextLevel == 5) return allHints.hint5;
+    else if (nextLevel == 6) return allHints.hint6;
+    else                     return allHints.hint7;
+    
     if (hint.empty()) {
         hint = "Review your code logic and edge cases.";
     }
