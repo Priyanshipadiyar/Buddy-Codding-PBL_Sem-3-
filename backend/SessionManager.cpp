@@ -17,7 +17,7 @@ int SessionManager::advanceHint(const std::string& userId) {
     auto& session = sessions_[userId];
     
     // Cap the hint level at 4 so it doesn't try to fetch hint5, hint6, etc.
-    session.hintLevel = std::min(session.hintLevel + 1, 4);
+    session.hintLevel = std::min(session.hintLevel + 1, 7);
     
     return session.hintLevel;
 }
